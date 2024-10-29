@@ -1,53 +1,99 @@
 import os
+import hashlib
 import sqlite3
+import sys
+import datetime
 
-# Define the database file name
-db_file = 'sqlite.db'
+db_file = 'content.db'
 
-# Check if the database file already exists
-if not os.path.exists(db_file):
-    # Connect to the SQLite database (it will create it if it doesn't exist)
-    conn = sqlite3.connect(db_file)
-    
-    # Create a cursor object
-    cursor = conn.cursor()
-    
-    # Create users table
-    cursor.execute('''
-    CREATE TABLE users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        last_name TEXT NOT NULL,
-        email TEXT NOT NULL UNIQUE
-    )
-    ''')
+# adding flags system
 
-    # Create weeks table
-    cursor.execute('''
-    CREATE TABLE weeks (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        number INTEGER NOT NULL,
-        name TEXT NOT NULL,
-        release_date TEXT NOT NULL,
-        file TEXT NOT NULL
-    )
-    ''')
+if '-d' in sys.argv:
+    os.remove('content.db')
 
-    # Create submissions table
-    cursor.execute('''
-    CREATE TABLE submissions (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        last_name TEXT NOT NULL,
-        week_number INTEGER NOT NULL,
-        FOREIGN KEY (week_number) REFERENCES weeks (number)
-    )
-    ''')
+if not os.path.exists('content.db'):
+    with sqlite3.connect('content.db') as conn:
+        cursor = conn.cursor()
 
-    # Commit the changes and close the connection
-    conn.commit()
-    conn.close()
-    print(f'Database "{db_file}" created with the necessary tables.')
-else:
-    print(f'Database "{db_file}" already exists.')
+        # users table
+        cursor.execute('''
+        CREATE TABLE users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT NOT NULL UNIQUE,
+            name TEXT NOT NULL,
+            password TEXT NOT NULL,
+            github TEXT NOT NULL,
+            signup TEXT NOT NULL
+        )
+        ''')
+
+        # challenges table
+        cursor.execute('''
+        CREATE TABLE challenges (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            release TEXT NOT NULL
+        )
+        ''')
+        
+        # challenges
+        # - Mining
+        # - Stars
+        # - Weather - https://archive.ics.uci.edu/dataset/501/beijing+multi+site+air+quality+data
+        # - farming
+        # - News
+        # - sql
+
+        # https://data.weather.gov.hk/weatherAPI/doc/HKO_Open_Data_API_Documentation.pdf
+        # https://www.kaggle.com/datasets/edumagalhaes/quality-prediction-in-a-mining-process
+        # https://archive.ics.uci.edu/dataset/913/forty+soybean+cultivars+from+subsequent+harvests
+
+        # submission
+
+        
+    print("db created")
+
+if '-a' in sys.argv:
+    with sqlite3.connect('content.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute('''
+        INSERT INTO users (username, name, password, github, signup)
+        VALUES(?, ?, ?, ?, ?)
+        ''', ('wingfooted', 'Alexander',
+              hashlib.sha256('password'.encode()).hexdigest(),
+              'https://github.com/wingfooted',
+              str(datetime.date.today()))
+        )
+
+if '-c' in sys.argv:
+    with sqlite3.connect('content.db') as conn:
+        cursor = conn.cursor()
+
+        cursor.execute('''
+        INSERT INTO users (username, name, password, github, signup)
+        VALUES(?, ?, ?, ?, ?)
+        ''', ('wingfooted', 'Alexander',
+              hashlib.sha256('password'.encode()).hexdigest(),
+              'https://github.com/wingfooted',
+              str(datetime.date.today()))
+        )
+
+if '-s' in sys.argv:
+    if not os.path.exists('antarctica.db'):
+        with sqlite3.connect('antarctica.db') as conn:
+            cursor = conn.cursor()
+
+            stations = {""}
+
+            # users table
+            cursor.execute('''
+            CREATE TABLE mawson (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                username TEXT NOT NULL UNIQUE,
+                name TEXT NOT NULL,
+                password TEXT NOT NULL,
+                github TEXT NOT NULL,
+                signup TEXT NOT NULL
+            )
+            ''')
 

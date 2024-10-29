@@ -1,0 +1,48 @@
+---
+title: "Star Classification"
+format: html
+editor: visual
+---
+
+## Stars
+
+Stars come in many types throught the galaxy, often a product of physical phenomena that 
+
+## Data
+
+The data consists of 241 complete entries, each one representing a star. Consequently, each star has the following charectaristics. 
+
+| Temperature | L | R | A_M | Color | Spectral_Class | Type
+
+The type column indicates the type of star you are dealing with. 
+
+## Brief
+
+*Youve just started a job as an intern at NASA, and your manager has thrown this on your desk. He expects a report on predicting `type` of a star, based just on its physical charectaristics. *
+
+**Complex**: Try produce a model that predicts star type based on a stars other features and write up a short rmd / qmd report on it.
+
+**Simple**: If your stuck and looking for something simpler, try write up report on the types of charectaristics exhibited by each star type.
+
+## Need a Hint?
+
+If youre using R Studio, you can filter a dataframe like this.
+```{r data_loading echo=FALSE, message=FALSE}
+library(dplyr)
+
+data = read.csv('stars.csv')
+
+filtered_for_type_1 = data |> filter(type = 1)
+```
+
+In Python you can do some filtering on the fly when you traverse a dataframe
+```{python data_loading}
+temperature_means = dict() # initialize some empty data store
+first_row = True
+
+for line in open('stars.csv'):
+  line = line.rstrip('\n').split(',')
+  if type:=line[7]==5:
+    # do something
+
+```
