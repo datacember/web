@@ -2,6 +2,7 @@ import sqlite3
 import hashlib
 from typing import Dict
 import datetime
+import numpy as np
 
 
 def create_user(username: str,
@@ -104,3 +105,31 @@ def days_until_end_of_december():
     else:
         days_left = (dec_end - today).days
         return days_left
+
+def get_challenges(current: datetime.date = datetime.date.today()):
+    """
+    Gets all available challenges open to user at this day
+    names : title names
+    html : relevant html
+    open_status : [bool]
+    """
+
+    with sqlite3.connect('content.db') as conn:
+        cursor = conn.cursor()
+        output = cursor.execute("SELECT * FROM challenges").fetchall()
+        output = [[row[i] for row in output] for i in range(len(output[0]))]
+
+        _, names, html, open_status = output[0], output[1], output[2], output[3]
+        open_status = [
+            datetime.date(
+                *[int(symbol) for symbol in day.split('-')]
+                )
+            for day in open_status
+        ]
+        open_status = [True if date.day <= current.day else False
+                       for date in open_status]
+
+        return names, html, open_status
+
+if __name__ == '__main__':
+    print(*get_challenges(datetime.date(2024, 12, 6)))

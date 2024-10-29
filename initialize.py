@@ -32,10 +32,25 @@ if not os.path.exists('content.db'):
         CREATE TABLE challenges (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
+            html TEXT NOT NULL,
             release TEXT NOT NULL
         )
         ''')
-        
+
+        query = '''
+        INSERT INTO challenges (name, html, release)
+        VALUES (?, ?, ?)
+        '''
+
+        challenges = (
+                ("Stars", "stars", "2024-12-1"),
+                ("Weeding out the Noise", "farming", "2024-12-5"),
+                ("Froth Flotation", "mining", "2024-12-9"),
+                ("SQLippery when icy!", "cold", "2024-12-16")
+        )
+
+        for challenge in challenges:
+            cursor.execute(query, challenge)
         # challenges
         # - Mining
         # - Stars
@@ -50,7 +65,6 @@ if not os.path.exists('content.db'):
 
         # submission
 
-        
     print("db created")
 
 if '-a' in sys.argv:

@@ -1,4 +1,5 @@
 import functions
+import datetime
 from flask import Flask, session, redirect, url_for, request, render_template
   # custom functions for database conenctivity
 import yaml
@@ -15,10 +16,16 @@ app.secret_key = config['secret_key']
 def index():
     if session.get('auth') != True:
         return redirect(url_for('login'))
-    
+  
+    # TODO, 2024 12, 10 is a debug
+    names, link, status_open = functions.get_challenges(datetime.date(2024, 12, 10))
     return render_template('main.html',
                            days=functions.days_until_end_of_december(),
-                           name=session['name']
+                           name=session['name'],
+                           names=names,
+                           link=link,
+                           status_open=status_open,
+                           loop_length=len(status_open)
                            )
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -64,6 +71,16 @@ def logout():
     session.pop('username', None)
     session.pop('auth', None)
     return redirect(url_for("login"))
+
+
+@app.route("/<dynamic>")
+def challenge(dynamic):
+    # TODO check_valid_challenge()
+    check_valid_challenge = lambda x: False
+    if check_valid_challenge(dynamic):
+        return render_template(f'{dynamic}.html')
+    else:
+        return dynamic
 
 
 if __name__ == '__main__':
