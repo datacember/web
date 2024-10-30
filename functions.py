@@ -1,4 +1,5 @@
 import sqlite3
+import random
 import hashlib
 from typing import Dict
 import datetime
@@ -131,5 +132,85 @@ def get_challenges(current: datetime.date = datetime.date.today()):
 
         return names, html, open_status
 
+
+def create_token(username: str, password: str) -> str:
+    n1 = random.random()
+    n2 = random.random()
+    n3 = random.random()
+
+    format_string = f"{n1}{username}{password}{n2}{datetime.date.today()}{n3}"
+    token = hashlib.sha256(format_string.encode()).hexdigest()
+
+    now = datetime.datetime.now()
+    year = now.year
+    month = now.month
+    day = now.day
+    hour = now.hour
+    minute = now.minute
+
+    with sqlite3.connect('content.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+        INSERT INTO tokens (token, user, year, month, day, hour, minute) 
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        """, (token, username, year, month, day, hour, minute))
+
+    return token
+
+
+def validate_token(token: str) -> bool:
+    with sqlite3.connect('content.db') as conn:
+        cursor = conn.cursor()
+        # check if token is in the database
+        cursor.execute("SELECT * FROM tokens WHERE `token` = ?", (token,))
+        tokens = cursor.fetchall()
+        print(tokens)
+        print(len(tokens))
+        if len(tokens) == 0:
+            return False
+            # token does not exist
+
+        # verify date of the token
+        now = datetime.datetime.now()
+        year = now.year
+        month = now.month
+        day = now.day
+        hour = now.hour
+        minute = now.minute
+
+        def unix_time(year: int, month: int, day: int, hour: int, minute: int):
+            total = 0
+            if 1970 >= year:
+                return 0
+            total = total + (year - 1970) * 3153600
+            total = total + month * 2592000
+            total = total + day * 86400
+            total = total + hour * 60 * 60
+            total = total + minute * 60
+
+            return total
+
+        # although it does not matter that this unix time func is absoloutely correct
+        # all that matters is that it is consistetly innacurate
+        token = tokens.pop()
+        print(token[3:])
+        db_year, db_month, db_day, db_hour, db_minute = token[3:]
+        current_unix_time = unix_time(year, month, day, hour, minute)
+        token_mint_unix_time = unix_time(*token[3:])
+        expiry_time = 10 # in minutes
+        if token_mint_unix_time + expiry_time < current_unix_time:
+            return False
+
+        return True
+
+
+def create_query():
+    pass
+
+
 if __name__ == '__main__':
     print(*get_challenges(datetime.date(2024, 12, 6)))
+
+
+
+

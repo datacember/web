@@ -1,6 +1,6 @@
 import functions
 import datetime
-from flask import Flask, session, redirect, url_for, request, render_template
+from flask import Flask, session, redirect, url_for, request, render_template, jsonify
   # custom functions for database conenctivity
 import yaml
 
@@ -83,5 +83,50 @@ def challenge(dynamic):
         return dynamic
 
 
+@app.route("/sql", methods=['GET', 'POST'])
+def sql():
+    if request.method == 'POST':
+        data = request.get_json()
+        sql = data.get('sql')
+        token = data.get('token')
+
+        # Error 1: token sql not in tact
+        # Error 2: token invalid / expired
+        # Error 3: Broken SQL
+        # Sucsess
+
+        if functions.validate_token(token):
+            print("validated")
+
+        else:
+            print("failed")
+
+        return jsonify({"content": "moment", "token": functions.validate_token(token)}), 200
+
+
+@app.route('/auth', methods=['POST', 'GET'])
+def auth():
+    if request.method == 'POST':
+        data = request.get_json()
+        db_response = functions.authenticate_user(
+                username=data.get('username'),
+                password=data.get('password')
+        )
+
+        if db_response['auth']:
+            username = data.get('username')
+            password = data.get('password')
+            # make the user an auth token
+            return jsonify({'auth': True,
+                            'token': functions.create_token(username, password)
+                            }), 200
+        else:
+            return jsonify({'auth': False}), 200
+
+    if request.method == 'GET':
+        # for stray requests
+        return redirect(url_for('index'))
+
+
 if __name__ == '__main__':
-    app.run(debug=True, port=8999)
+    app.run(debug=True, port=8999, host='0.0.0.0')

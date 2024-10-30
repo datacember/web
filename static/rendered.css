@@ -6,6 +6,10 @@ body {
 	background-color: "blue";
 }
 
+main {
+	margin-left: 15%;
+	margin-right: 15%;
+}
 
 .content-3-fold {
     display: flex;              
