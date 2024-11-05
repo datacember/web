@@ -93,8 +93,10 @@ if not os.path.exists('content.db'):
         cursor.execute('''
         CREATE TABLE queries (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            token INTEGER,
+            user TEXT,
             user_query TEXT,
-            time TEXT,
+            time REAL,
             runtime TEXT,
             row_length INTEGER
         )

@@ -1,0 +1,152 @@
+---
+title: "SQLippery when Icy!"
+editor: visual
+image: "images/penguin.png"
+format: 
+  html:
+    toc: true
+    number-sections: true
+---
+
+## Antartica!
+
+::: {.columns
+::: {.column width="100%"}
+![🐧](images/penguin.png "View of Antartica")
+:::
+:::
+
+Hello, Privyet, Hola, and नमस्ते are some of the languages you may hear spoken at one of the many Antarctic research stations.
+
+::: columns
+::: {.column width="50%"}
+Australia specifically operates four major Antarctic stations that collect critical meteorological data and conduct science on the world's coolest continent. This data is essential for wildlife monitoring, glaciology, and, critically, meteorology. These four stations are Casey, Mawson, Davis, and Macquarie Island.
+:::
+
+::: {.column width="50%"}
+![Stations of antartica map. We are only concerned with Mawson, Davis, Casey and Macquarie Island](images/stations.png){width="75%"}
+:::
+:::
+
+Fun fact: Mawson Station, established in 1911, was the first Australian station in Antarctica and is located in the only part of the Antarctic continent that is not covered by ice!
+
+## Your Task
+
+You are to create a report investigating the data in antartica. Below are a few ideas:
+
+### Seasons
+
+Does Antartica have seasons, and how do these affect climate across the 4 stations.
+
+Here are some motivating your data exploration: - Does Antartica have distinct seasons - Is there enough data to classify different seasons, what are their charectaristics? - Try producing a time series plot of the data. How does it look?
+
+### Broken Instruments
+
+For a more intermediate report motivated by statistics, are there certain instruments that are faulty more often than others (missing values, outliers)?
+
+Write your findings up into a brief report. Here are a few questions to motivate your research:
+
+-   What are some limitations in the data that prevent you from fully understanding
+-   Are instruments consistently innacurate / broken at the $\alpha=0.05$ theshold for significance?
+
+### Forecasting
+
+For an advanced report, produce a model that will forecast the weather based on previous meterological factors.
+
+-   Is there any issues within the data that prevent the model from learning weather patterns?
+-   How well does your model perform?
+-   What kind of model selections did you make?
+
+### Wildcard
+
+> **Note**: if you have an idea that you want to explore feel free to. Provide some context and motivation as to why.
+
+## Data
+
+This challenges data is acsessible through SQL. See below for a guide on how to run sql.
+
+Generally, each of the stations has its own table, `casey`, `davis`, `mawson`, and `macquarrie_island` respectively. Each table in the database follows the same format:
+
+| Column Name | Full Name              | Description                               | Database Type | Units             |
+|-------------|-------------|---------------------|-------------|-------------|
+| Day         | Day                    | The day of the month                      | INTEGER       | Days              |
+| Month       | Month                  | The month of the year                     | INTEGER       | Months            |
+| Year        | Year                   | The year                                  | INTEGER       | Years             |
+| MinTemp     | Minimum Temperature    | The minimum temperature recorded          | REAL          | °C                |
+| MaxTemp     | Maximum Temperature    | The maximum temperature recorded          | REAL          | °C                |
+| Rainfall    | Rainfall               | The total rainfall                        | REAL          | mm                |
+| Evap        | Evaporation            | The amount of evaporation                 | REAL          | mm                |
+| Sunshine    | Sunshine               | The total sunshine hours                  | REAL          | Hours             |
+| GustDir     | Gust Direction         | The direction of the strongest gust       | TEXT          | Compass Direction |
+| GustSpeed   | Gust Speed             | The speed of the strongest gust           | REAL          | km/h              |
+| GustTime    | Gust Time              | The time of the strongest gust            | TEXT          | HH:MM format      |
+| Temp9am     | Temperature at 9 AM    | The temperature recorded at 9 AM          | REAL          | °C                |
+| Humid9am    | Humidity at 9 AM       | The humidity recorded at 9 AM             | REAL          | Percentage (%)    |
+| Cloud9am    | Cloud Cover at 9 AM    | The cloud cover recorded at 9 AM          | INTEGER       | Octas             |
+| WindDir9am  | Wind Direction at 9 AM | The wind direction recorded at 9 AM       | TEXT          | Compass Direction |
+| Windspd9am  | Wind Speed at 9 AM     | The wind speed recorded at 9 AM           | REAL          | km/h              |
+| Press9am    | Pressure at 9 AM       | The atmospheric pressure recorded at 9 AM | REAL          | hPa               |
+| Temp3pm     | Temperature at 3 PM    | The temperature recorded at 3 PM          | REAL          | °C                |
+| Humid3pm    | Humidity at 3 PM       | The humidity recorded at 3 PM             | REAL          | Percentage (%)    |
+| Cloud3pm    | Cloud Cover at 3 PM    | The cloud cover recorded at 3 PM          | INTEGER       | Octas             |
+| WindDir3pm  | Wind Direction at 3 PM | The wind direction recorded at 3 PM       | TEXT          | Compass Direction |
+| Windspd3pm  | Wind Speed at 3 PM     | The wind speed recorded at 3 PM           | REAL          | km/h              |
+| Press3pm    | Pressure at 3 PM       | The atmospheric pressure recorded at 3 PM | REAL          | hPa               |
+
+Beware: there are missing entries.
+
+## Running SQL
+
+```{r setup, include=FALSE}
+library(reticulate)
+
+use_virtualenv("../ENV", required = TRUE)
+
+py_install("git+https://github.com/datacember/datacember.git@main")
+datacember <- import("datacember")
+```
+
+For this task it is highly reccomended that you use python. Use the following guide as a quickstart on how to get the data for this challenge.
+
+> **Note**: If you are unfamiliar with python, and want to just use basic sql, you can use the <a href="/workspace"> web-client for running your sql queries</a>.
+
+First, lets import the client connection. You will use this to interface with the server on which your sql will be run.
+
+`pip install git+https://github.com/datacember/datacember.git@main`
+
+Now lets import the dataset connection to the antartica database.
+
+```{python pythoimport}
+from datacember import antartica
+```
+
+Due to the way that the `datacember_connection` object works, its easiest to use the class in a context manager. Below we will do this with an example running a sql query to select 2 records from the Mawson station.
+
+```{python pythondb}
+with antartica(username="wingfooted", password="password") as db:
+  content = db("SELECT * FROM mawson LIMIT 2;")
+  for row in content:
+    print(row)
+```
+
+Voila!
+
+A few things to note when using the `datacember` module. I have written this on my own, so I am sure there are a few bugs present. Contact me and I will try get it sorted out.
+
+However some of your errors may be explained by:
+
+-   session expiry. Your session lasts 10 minutes, meaning all code you run from within the context manager has 10 minutes to run before a hidden token expires, and your code will not run. Re-entering the context manager (with correct password and username!) mints a new token.
+
+-   Rate limiting. You will be limited after 20 requests per minute.
+
+-   Invalid SQL. Ideally an error should be raised when your sql is invalid. All sql on the back-end is run with sqlite3, so all the syntax must conform with the conventiosn of sqlite3.
+
+If you have any suggestions or want to work with me on the datacember class, or have ideas on how to improve it message me and we can implement some ideas.
+
+## Final notes
+
+If you are new to SQL you can find a <a href="/guide/sql"> brief guide here</a>
+
+You can find additional examples and documentation on the <a href="/guide/datacember-module"> datacember module here </a>
+
+See our <a href="/guide/report"> report writing guide here </a>

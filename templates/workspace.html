@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datacember - Workspace</title>
+		<!--<link rel="stylesheet" href="workspace.css">-->
+</head>
+<body>
+
+		<h2> Workspace </h2>
+
+		<div id="content-div">
+        content
+    	</div>
+		<main>
+			<div class="code-cell" contenteditable="true">
+				<div id="code">
+				SELECT * FROM davis LIMIT 1000;	
+				</div>
+				<button id="run" type="button"></button>
+			</div>
+		</main>
+		
+
+		<!-- Token form -->
+		<form>
+			<input type="hidden" id="token_field" name="token_form" value="{{token}}">
+		</form>
+
+		<script>
+		
+		let sql
+		let payload
+		let tokenValue // get the token value in the field
+
+        document.addEventListener("DOMContentLoaded", function() {
+            tokenValue = document.getElementById("token_field").value;
+            console.log(tokenValue);
+            // document.getElementById("content-div").innerText = tokenValue;
+        });
+
+		const run = document.getElementById("run");
+		run.addEventListener("click", function() {
+			// function
+			// get the sql code and send it to the server
+			sql = document.getElementById("code").innerText;
+			console.log(sql);
+			console.log(tokenValue);
+			payload = {
+				"token": tokenValue,
+				"sql": sql
+			}
+
+		});
+		
+		const destination = "http://127.0.0.1:8999/sql";
+
+		const response = await fetch(destination, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(payload)
+		});;
+
+		const data = await response.json();
+		console.log('data', data);
+
+
+		</script>
+		<style>
+		main {
+			margin-left: 15%; margin-right: 15%;
+		}
+		.code-cell {
+			background-color: lightgrey;
+			font-family: Helvetica, sans-serif;
+			font-size: 1.5rem;
+		}
+
+		</style>
+
+</body>
+</html>
+
+

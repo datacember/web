@@ -1,4 +1,6 @@
 import sqlite3
+import subprocess
+import os
 import random
 import hashlib
 from typing import Dict
@@ -38,7 +40,6 @@ def create_user(username: str,
         )
         cursor.execute("SELECT * FROM users")
         user = cursor.fetchall()
-        print(user)
 
     output["created"] = True
     output["valid_username"] = True
@@ -151,7 +152,7 @@ def create_token(username: str, password: str) -> str:
     with sqlite3.connect('content.db') as conn:
         cursor = conn.cursor()
         cursor.execute("""
-        INSERT INTO tokens (token, user, year, month, day, hour, minute) 
+        INSERT INTO tokens (token, user, year, month, day, hour, minute)
         VALUES (?, ?, ?, ?, ?, ?, ?)
         """, (token, username, year, month, day, hour, minute))
 
@@ -164,8 +165,6 @@ def validate_token(token: str) -> bool:
         # check if token is in the database
         cursor.execute("SELECT * FROM tokens WHERE `token` = ?", (token,))
         tokens = cursor.fetchall()
-        print(tokens)
-        print(len(tokens))
         if len(tokens) == 0:
             return False
             # token does not exist
@@ -193,24 +192,46 @@ def validate_token(token: str) -> bool:
         # although it does not matter that this unix time func is absoloutely correct
         # all that matters is that it is consistetly innacurate
         token = tokens.pop()
-        print(token[3:])
         db_year, db_month, db_day, db_hour, db_minute = token[3:]
         current_unix_time = unix_time(year, month, day, hour, minute)
         token_mint_unix_time = unix_time(*token[3:])
-        expiry_time = 10 # in minutes
+        expiry_time = 1 # in minutes
         if token_mint_unix_time + expiry_time < current_unix_time:
             return False
 
         return True
 
 
-def create_query():
-    pass
+def create_query(
+    user_query: str,
+    time: str,
+    runtime: float,
+    row_length: int,
+    token: str,
+    user: str
+):
+    sql = f"""
+    INSERT INTO queries (token, user, user_query, time, runtime, row_length)
+    VALUES ('{token}', '{user}', '{user_query}', '{str(time)}', '{runtime}', '{row_length}')
+    """
+    with sqlite3.connect('content.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute(sql)
+
+def get_user_from_token(token: str):
+    with sqlite3.connect('content.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT user FROM tokens WHERE token = ?", (token,))
+        output = cursor.fetchone()
+    return output[0]
 
 
-if __name__ == '__main__':
-    print(*get_challenges(datetime.date(2024, 12, 6)))
-
-
-
-
+def startup_render():
+    for filename in os.listdir('quarto'):
+        if filename.endswith('.qmd'):
+            qmd = f"quarto/{filename}"
+            try:
+                subprocess.run(['quarto', 'render', qmd], check=True)
+                print(f"Rendered {filename} successfully.")
+            except subprocess.CalledProcessError:
+                print(f"Failed to render {filename}.")

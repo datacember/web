@@ -1,24 +1,45 @@
 ---
-title: "Star Classification"
-format: html
+title: "Stars"
 editor: visual
+format: 
+  html:
+    toc: true
+    number-sections: true
 ---
 
 ## Stars
 
-Stars come in many types throught the galaxy, often a product of physical phenomena that 
+Stars are some of the universe's most fascinating objects, each one a unique result of complex physical phenomena. They come in all shapes, sizes, and types, from massive blue supergiants to dim red dwarfs. The type of star can tell us a lot about its age, temperature, brightness, and even the elements it's made of.
 
 ## Data
 
-The data consists of 241 complete entries, each one representing a star. Consequently, each star has the following charectaristics. 
+Our data contains 241 entries, with each row representing one star. Every star in this dataset has the following key characteristics:
 
-| Temperature | L | R | A_M | Color | Spectral_Class | Type
+| Temperature | L (Luminosity) | R (Radius) | A_M (Absolute Magnitude) | Color | Spectral_Class | Type |
+
+- **Temperature**: Surface temperature of the star.
+- **L (Luminosity)**: Brightness of the star relative to the Sun.
+- **R (Radius)**: Size of the star relative to the Sun.
+- **A_M (Absolute Magnitude)**: A measure of the star’s brightness as observed from Earth.
+- **Color**: Apparent color of the star, ranging from blue to red.
+- **Spectral_Class**: Classification of the star based on its spectral lines (e.g., O, B, A, F, G, K, M).
+- **Type**: The specific type/category of star based on its characteristics.
+
+The aim here is to see if we can predict a star’s type just based on these physical attributes.
 
 The type column indicates the type of star you are dealing with. 
 
+## Fun Facts about Stars
+
+1. **Stars Can "Sing"**: Stars can actually vibrate in ways that resemble sound waves, a field of study known as asteroseismology. These vibrations help astronomers learn about a star's internal structure.
+   
+2. **Stars Live (and Die) in Spectacular Fashion**: Massive stars end their lives in colossal supernova explosions, scattering elements throughout the cosmos—these elements eventually form planets and even life.
+
+3. **The Sun is Average, But Essential**: Despite being a modestly sized, G-type main-sequence star, the Sun's stable energy output makes it perfect for sustaining life on Earth.
+
 ## Brief
 
-*Youve just started a job as an intern at NASA, and your manager has thrown this on your desk. He expects a report on predicting `type` of a star, based just on its physical charectaristics. *
+**Challenge Option**: Build a model that accurately predicts star type based on its characteristics, and write a concise report detailing your approach and findings.
 
 **Complex**: Try produce a model that predicts star type based on a stars other features and write up a short rmd / qmd report on it.
 
@@ -27,7 +48,7 @@ The type column indicates the type of star you are dealing with.
 ## Need a Hint?
 
 If youre using R Studio, you can filter a dataframe like this.
-```{r data_loading echo=FALSE, message=FALSE}
+```{r data_loading_r, eval=FALSE, message=FALSE}
 library(dplyr)
 
 data = read.csv('stars.csv')
@@ -36,7 +57,7 @@ filtered_for_type_1 = data |> filter(type = 1)
 ```
 
 In Python you can do some filtering on the fly when you traverse a dataframe
-```{python data_loading}
+```{python data_loading_py, eval=FALSE, echo=TRUE}
 temperature_means = dict() # initialize some empty data store
 first_row = True
 
@@ -44,5 +65,15 @@ for line in open('stars.csv'):
   line = line.rstrip('\n').split(',')
   if type:=line[7]==5:
     # do something
-
 ```
+
+Or use the pandas library
+```{python data_loading_py_2, eval=FALSE, echo=TRUE}
+import pandas as pd
+
+stars = pd.read_csv('stars.csv')
+stars = stars[stars['Type']==2]
+```
+
+For a no-code option you can use Excel.
+
