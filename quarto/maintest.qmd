@@ -1,0 +1,122 @@
+---
+editor: visual
+format: 
+  html:
+    toc: true
+    number-sections: false
+---
+<head>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+</head>    
+
+[comment]: <> (Header Goes Here)
+
+
+<div class="wrapper-feature">
+<canvas id="lorenzCanvas" width=767.5% height=491.2% style="opacity; 0; position: absolute;"></canvas>
+<p id="logo-big" style="font-family: 'Libre Baskerville', Serif;
+font-size: 5em; letter-spacing: -0.09em;
+z-index=1; position: absolute;"
+	>Datacember</p>
+
+</div>
+
+<script>
+const canvas = document.getElementById("thomasCanvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Attractor parameters
+        const beta = 0.2; // Controls the chaotic behavior
+        const dt = 0.01;  // Time step
+        const scale = 1; // Scaling for visualization
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+
+        // Initial conditions
+        let points = [];
+        for (let i = 0; i < 50; i++) {
+            points.push({
+                x: Math.random() - 0.5,
+                y: Math.random() - 0.5,
+                z: Math.random() - 0.5
+            });
+        }
+
+        // Animation loop
+        function draw() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
+            points.forEach((p, index) => {
+                // Update equations for the Thomas attractor
+                const dx = -beta * p.x + Math.sin(p.y) * dt;
+                const dy = -beta * p.y + Math.sin(p.z) * dt;
+                const dz = -beta * p.z + Math.sin(p.x) * dt;
+
+                p.x += dx;
+                p.y += dy;
+                p.z += dz;
+
+                // Transform to screen space
+                const screenX = centerX + p.x * scale;
+                const screenY = centerY - p.z * scale;
+
+                // Draw a point
+                ctx.fillStyle = `hsl(${(p.y * 200) % 360}, 100%, 70%)`;
+                ctx.fillRect(screenX, screenY, 2, 2);
+            });
+
+            // Loop the animation
+            requestAnimationFrame(draw);
+        }
+
+        // Start animation
+        draw();
+</script>
+
+
+
+[comment]: <> (Lorenz Attractor)
+
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+## Challenges
+
+:::
+
+::: {.column width="50%"}
+
+## Quicklinks
+
+:::
+
+::::
+
+[comment]: <> (Comment test)
+
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+## Profile
+
+:::
+
+::: {.column width="50%"}
+
+## Guides
+
+:::
+
+::::
+
+

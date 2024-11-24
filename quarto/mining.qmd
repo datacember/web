@@ -1,0 +1,139 @@
+---
+title: "Froth Flotation"
+editor: visual
+format: 
+  html:
+    toc: true
+    number-sections: true
+---
+
+## What is Froth Flotation?
+
+::: {.columns}
+:::: {.column width="60%"}
+
+Amina, Gangue and Slurry––are all part of the jargon that make the froth flotation process confusing.
+However this process has been instrumental in shaping the 20th century. 
+At its core froth flotation is just a technique whereby minerals can be separated from waste material (gangue or tailings), making it an important process in extracting minerals and mineral purification.
+
+Under the hood, froth flotation works by combining minerals in an aqueous slurry. Mineral samples are hydrophillic (iron oxide included) but through the introduction of a specialist reagent (amina or amine in our data) this mineral selectively becomes hydrophobic. 
+These now hydrophobic minerals repel water, and with the addition of air and frother, they attract to the air bubbles and float to the top of the plant, at which point the mineral has been separated from the gangue (Silica in our data).
+
+Naturally, much of the froth flotation process is underpinned by chemistry. Video aides are available <a href="https://www.youtube.com/watch?v=LGXqyNwSUIQ"> here</a>
+
+::::
+:::: {.column width="40%"}
+![Diagram of a Flotation Cell Taken from <a href="https://en.wikipedia.org/wiki/Froth_flotation"> wikepedia </a> ](images/cell.png "Flotation Cell")
+::::
+:::
+
+For this challenge, you are working with a **time series** dataset of froth flotation data.
+
+## Dataset
+
+The dataset can be found <a href="https://www.kaggle.com/datasets/edumagalhaes/quality-prediction-in-a-mining-process?resource=download">here</a>.
+
+::: {.column-body-outset}
+| **Column Name**                | **Unit**          | **Description**                                   |
+|--------------------------------|-------------------|---------------------------------------------------|
+| Date                           | YYYY-MM-DD        | The date of the recorded data.                   |
+| % Iron Feed                    | %                 | Percentage of iron in the feed material.         |
+| % Silica Feed                  | %                 | Percentage of silica in the feed material.       |
+| Starch Flow                    | kg/h              | Flow rate of starch used in the process.         |
+| Amina Flow                     | L/h               | Flow rate of amina used in the process.          |
+| Ore Pulp Flow                  | m³/h              | Flow rate of ore pulp through the system.        |
+| Ore Pulp pH                    | -                 | pH level of the ore pulp.                        |
+| Ore Pulp Density               | kg/m³             | Density of the ore pulp.                         |
+| Flotation Column 01 Air Flow   | m³/min            | Air flow rate in flotation column 01.            |
+| Flotation Column 02 Air Flow   | m³/min            | Air flow rate in flotation column 02.            |
+| Flotation Column 03 Air Flow   | m³/min            | Air flow rate in flotation column 03.            |
+| Flotation Column 04 Air Flow   | m³/min            | Air flow rate in flotation column 04.            |
+| Flotation Column 05 Air Flow   | m³/min            | Air flow rate in flotation column 05.            |
+| Flotation Column 06 Air Flow   | m³/min            | Air flow rate in flotation column 06.            |
+| Flotation Column 07 Air Flow   | m³/min            | Air flow rate in flotation column 07.            |
+| Flotation Column 01 Level      | cm                | Pulp level in flotation column 01.               |
+| Flotation Column 02 Level      | cm                | Pulp level in flotation column 02.               |
+| Flotation Column 03 Level      | cm                | Pulp level in flotation column 03.               |
+| Flotation Column 04 Level      | cm                | Pulp level in flotation column 04.               |
+| Flotation Column 05 Level      | cm                | Pulp level in flotation column 05.               |
+| Flotation Column 06 Level      | cm                | Pulp level in flotation column 06.               |
+| Flotation Column 07 Level      | cm                | Pulp level in flotation column 07.               |
+| % Iron Concentrate             | %                 | Percentage of iron in the concentrate material.  |
+| % Silica Concentrate           | %                 | Percentage of silica in the concentrate material.|
+:::
+
+Some features are updated on an hourly basis, and others on a 20 second basis, finding which are which will be left as an excersise to the reader. 
+
+## Your Task
+Below are a few directions in which you can explore the data. As always, refer to the report writing guide
+
+### EDA
+If the froth flotation jargon is a bit too much, try importing the data with python or excel and try producing some simple data summaries. Maybe try producing a time series plot to demonstrate how the most 'infuential' factors determine silica concentrate
+
+Here are some leading discussion questions:
+
+- What kinds of trends or associations did you notice within your data summaries?
+
+- Did you notice any outliers?
+
+- What factors were most pertinent or 'influential' in predicting Silica Concentrate?
+
+:::{.column-margin}
+What kinds of statistics or plots show this? 
+Hint: Check correlation plots and correlation
+:::
+
+- What are the impacts of this data? Can any of your conclusions save money for the process operator?
+
+### Operational Reporting
+How has the froth flotation plant been performing?
+Summarise the performance of the process, and if you find any rooms for improvment write them up into an executive summary
+
+Leading questions
+
+- What metric did you use for plant performance?
+
+- How does the plant perform each month by this metric?
+
+- What reccoemndatiosn do you have for the plant operator?
+
+### Modelling
+As aformentioned, with a predictive model Engineers could anticipate changes to silica concentrate, and take proactive measures to reduce uneccesary waste of iron concentrate in tailings. 
+Try produce a model to predict Silica Concentrate.
+
+Here are some leading discussion questions for your report:
+
+- What kind of model did you select? Did it take advantage of the time series data?
+
+- Evaluate your models performance. What kinds of statistics did you use?
+
+- Comment on any limitations with your methodology, data or approach you took.
+
+
+If you choose a modelling approach refer to the next section for additional modelling considerations
+
+### Wildcard
+Or any other ideas you'd like to explore. Additional points for innovative tasks!
+
+Additionally, for submissions you may want to partner with another member of the challenge to contrast a regression vs a LSTM modelling approach for instance.
+
+## Modelling: Considerations
+
+The goal is to predict how much impurity is in the ore concentrate for the next hour interval. 
+Impurity in this case is the '% of Silica' measurment.
+
+Using this model, an engineer could take corrective action in advance and reduce the impurity. 
+
+Here are a few model selections to consider.
+
+- Columns 4 to 8 are meaures that are most "important" to predicting final quality.
+
+- Columns 9 to 22 are process data.
+
+- The final two are lab measurements
+
+::: {.column-margin}
+While variable selection is at your descresion for modelling tasks, keep in mind that the last two columns % Iron Concentrate and % Silica Concentrate are likely not available in a practical setting.
+:::
+
+You may also want to remove date as a feature to prevent overfitting. 

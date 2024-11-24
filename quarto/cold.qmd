@@ -123,7 +123,7 @@ from datacember import antartica
 Due to the way that the `datacember_connection` object works, its easiest to use the class in a context manager. Below we will do this with an example running a sql query to select 2 records from the Mawson station.
 
 ```{python pythondb}
-with antartica(username="wingfooted", password="password") as db:
+with antartica(username="default", password="demo") as db:
   content = db("SELECT * FROM mawson LIMIT 2;")
   for row in content:
     print(row)

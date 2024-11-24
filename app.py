@@ -40,6 +40,8 @@ def login():
         username = request.form.get('username')
         password = request.form.get('password')
         print("user:", username, password)
+        if username=='default':
+            return render_template('login.html')
         usercred = functions.authenticate_user(username, password)
         session['auth'] = usercred['auth']
         session['username'] = usercred['username']
@@ -80,7 +82,7 @@ def logout():
     return redirect(url_for("login"))
 
 
-@app.route("/<dynamic>")
+@app.route("/challenge/<dynamic>")
 @limiter.limit("30 per minute")
 def challenge(dynamic):
     # TODO check_valid_challenge()
@@ -92,6 +94,21 @@ def challenge(dynamic):
         return redirect(url_for('challenge', dynamic=dynamic))
 
     if check_valid_challenge(dynamic):
+        return render_template(f'{dynamic}.html')
+
+    else:
+        return dynamic
+
+@app.route("/guide/<dynamic>")
+@limiter.limit("30 per minute")
+def guide(dynamic):
+    check_valid_guide = lambda x: True
+
+    if not is_kept(dynamic):
+        upkeep(dynamic)
+        return redirect(url_for('guide', dynamic=dynamic))
+
+    if check_valid_guide(dynamic):
         return render_template(f'{dynamic}.html')
 
     else:
@@ -178,7 +195,27 @@ def auth():
         # for stray requests
         return redirect(url_for('index'))
 
+@app.route('/people')
+def people():
+    if session.get('auth') != True:
+        return render_template('people.html', content=functions.get_users())
+    else:
+        return redirect(url_for('login'))
 
+"""
+@app.route('/guides/<title>')
+def guide(title):
+    if session.get('auth') != True:
+        return redirect(url_for('login'))
+    
+    # assume user is logged in
+    # define routes & their outputs 
+    article_file_names = {'why-articles': 'articles'}
+    if title in article_file_names:
+        return render_template(article_file_names[title])
+
+    return redirect(url_for('main'))
+"""
 
 if __name__ == '__main__':
     # TODO find a way to render

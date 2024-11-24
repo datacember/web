@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Datacember</title>
+<title>datacember</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,168 +20,102 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-
-
-.logo {font-family: 'Libre Baskerville', Serif;}
-.canvas-text {text-align: center;}
-#logo-big {letter-spacing: -0.095em; font-size: 5em;}
-#logo-sub {letter-spacing: -0.05em; font-size: 1.5em;}
-#logo-med {letter-spacing: -0.07em; font-size: 1em;}
-
 </style>
 
 
-<script src="/static/main_files/libs/clipboard/clipboard.min.js"></script>
-<script src="/static/main_files/libs/quarto-html/quarto.js"></script>
-<script src="/static/main_files/libs/quarto-html/popper.min.js"></script>
-<script src="/static/main_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="/static/main_files/libs/quarto-html/anchor.min.js"></script>
-<link href="/static/main_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="/static/main_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="/static/main_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="/static/main_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="/static/main_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="/static/main2_files/libs/clipboard/clipboard.min.js"></script>
+<script src="/static/main2_files/libs/quarto-html/quarto.js"></script>
+<script src="/static/main2_files/libs/quarto-html/popper.min.js"></script>
+<script src="/static/main2_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="/static/main2_files/libs/quarto-html/anchor.min.js"></script>
+<link href="/static/main2_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="/static/main2_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="/static/main2_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="/static/main2_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="/static/main2_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet">
 
 </head>
 
-<body class="fullcontent">
+<body>
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
-
-<header>
-	<p id="logo-med" class="logo">Datacember</p>
-</header>
-
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#froth-flotation" id="toc-froth-flotation" class="nav-link active" data-scroll-target="#froth-flotation"><span class="header-section-number">1</span> Froth Flotation</a></li>
+  <li><a href="#testing2" id="toc-testing2" class="nav-link" data-scroll-target="#testing2"><span class="header-section-number">2</span> Testing2</a></li>
+  </ul>
+</nav>
+</div>
 <main class="content" id="quarto-document-content">
 
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">datacember</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
     
-<div class="wrapper-feature" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; position: relative;">
-<canvas id="lorenzCanvas" width="800%" height="491.2%" style="opacity; 0; position: absolute;">
-</canvas>
-<div class="canvas-text" style="z-index: 1; position">
-	<p class="logo" id="logo-big"><b>Datacember</b></p>
-	<p class="logo" id="logo-sub">Lorem ipsum dolor sit ament, consecutor adipiscing elit.</p>
-</div>
-<!--
-<p id="logo-big" style="font-family: 'Libre Baskerville', Serif; font-size: 5em; letter-spacing: -0.09em; z-index=1; position: absolute;">
-Datacember
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="froth-flotation" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="froth-flotation"><span class="header-section-number">1</span> Froth Flotation</h2>
+<p>Froth flotation is an ore extraction technique</p>
+</section></main></div>
+{=html} {% raw %}
+
+{% for i in range(0, loop_length) %}
+
+{% endfor %}
+<table>
+<thead>
+<tr>
+<th>
+Task Name
+</th>
+<th>
+Status
+</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>
+{% if status_open[i] %} <a href="{{ url_for('challenge', dynamic=link[i]) }}"> {{ names[i] }} </a> {% else %} {{ names[i] }} {% endif %}
+</td>
+<td>
+{% if status_open[i] %} 🟢 {% else %} 🔴 {% endif %}
+</td>
+</tr></tbody>
+</table>
+{% endraw %}
+
+
+<section id="testing2" class="level2" data-number="2">
+<h2 data-number="2" data-anchor-id="testing2"><span class="header-section-number">2</span> Testing2</h2>
+<div style="color: blue; text-align: center;">
+<h1>
+This is a custom HTML header
+</h1>
+<p>
+This paragraph is styled in blue and centered!
 </p>
-<p id="logo-sub" style="font-family: 'Libre Baskerville', Serif; font-size: 1.5em; letter-spacing: -0.05em; z-index: 1; position: absolute; text-align: center; max-width: 80%;">
-	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ac felis arcu. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.
-</p>
--->
-
-
-
 </div>
-
-
-<script>
-    const canvas = document.getElementById('lorenzCanvas');
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // Lorenz parameters
-    const sigma = 10; // Prandtl number
-    const rho = 28; // Rayleigh number
-    const beta = 8 / 3; // Geometric factor
-   	let dt = 0.01; 
-
-
-    const points = [];
-    for (let i = 0; i < 400; i++) {
-            points.push({
-                x:  -0.001*i,
-                y: 0.001*i,
- 				z: 3,
-				color: `hsl(${20+i}, 110%, 60%)`
-            });
-        }
-
-    // https://www.dynamicmath.xyz/strange-attractors/ TODO implement one of these attractors
-
-    // Colors for each trajectory
-    const pass = () => {};
-
-    // Canvas dimensions
-    const width = canvas.width;
-    const height = canvas.height;
-
-    // Center of the canvas
-    const cx = width / 2;
-    const cy = height / 2 + 200;
-
-    // Scale factor
-    const scale = 4;
-
-    // Animation loop
-    function animate() {
-		// if have fast fade, want to have slow waves
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.1)'; // Fading background
-        pass();
-		dt = Math.max(dt * 0.9992, 0.001);
-        
-        ctx.fillRect(0, 0, width, height);
-
-        points.forEach((state, index) => {
-            // Lorenz equations
-            const dx = sigma * (state.y - state.x);
-            const dy = state.x * (rho - state.z) - state.y;
-            const dz = state.x * state.y - beta * state.z;
-
-            state.x += dx * dt;
-            state.y += dy * dt;
-            state.z += dz * dt;
-
-            // Map attractor values to canvas
-            // map x -> 3x
-            const px = cx + state.x * scale * 5.3;
-            const py = cy - state.z * scale * -3 - 450;
-
-            // Draw the point
-            ctx.beginPath();
-            ctx.arc(px, py, 2, 0, Math.PI * 2);
-            ctx.fillStyle = state.color; // Use different color for each trajectory
-            ctx.fill();
-        });
-
-        // Loop the animation
-        requestAnimationFrame(animate);
-    }
-    animate();
-</script>
-
-
-<div class="columns">
-<div class="column" style="width:50%;">
-<section id="challenges" class="level2">
-<h2 class="anchored" data-anchor-id="challenges">Challenges</h2>
 </section>
-</div><div class="column" style="width:50%;">
-<section id="quicklinks" class="level2">
-<h2 class="anchored" data-anchor-id="quicklinks">Quicklinks</h2>
-</section>
-</div>
-</div>
-<div class="columns">
-<div class="column" style="width:50%;">
-<section id="profile" class="level2">
-<h2 class="anchored" data-anchor-id="profile">Profile</h2>
-</section>
-</div><div class="column" style="width:50%;">
-<section id="guides" class="level2">
-<h2 class="anchored" data-anchor-id="guides">Guides</h2>
-</section>
-</div>
-</div>
 
-</main>
+
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -603,7 +537,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-</div> <!-- /content -->
+ <!-- /content -->
 
 
 

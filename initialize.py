@@ -9,18 +9,56 @@ import pandas as pd
 db_file = 'content.db'
 
 # adding flags system
+all_tags = False
+if "-all" in sys.argv:
+    all_tags = True
+    
 
-if '-d' in sys.argv:
+if '-d' in sys.argv or all_tags:
     try:
         os.remove('content.db')
     finally:
         pass
+
     try:
         os.remove('antarctica.db')
     finally:
         pass
 
-if not os.path.exists('content.db'):
+    try:
+        os.remove('forum.db')
+    finally:
+        pass
+
+if not os.path.exists('forum.db') or all_tags:
+    with sqlite3.connect('forum.db') as conn:
+        cursor = conn.cursor()
+
+        cursor.execute('''
+        CREATE TABLE posts (
+            pid INTEGER PRIMARY KEY,
+            author TEXT,
+            date TEXT,
+            tags TEXT,
+            content TEXT,
+            likes TEXT,
+            reply_count INTEGER
+        )
+        ''')
+        cursor.execute('''
+        CREATE TABLE replies (
+            rid INTEGER PRIMARY KEY,
+            parent_id INTEGER NOT NULL,
+            parent_type INTEGER NOT NULL,
+            author TEXT,
+            date TEXT,
+            content TEXT,
+            likes TEXT,
+            reply_count TEXT
+        )
+        ''')
+
+if not os.path.exists('content.db') or all_tags:
     with sqlite3.connect('content.db') as conn:
         cursor = conn.cursor()
 
@@ -33,6 +71,15 @@ if not os.path.exists('content.db'):
             password TEXT NOT NULL,
             github TEXT NOT NULL,
             signup TEXT NOT NULL
+        )
+        ''')
+
+        # users table
+        cursor.execute('''
+        CREATE TABLE access_codes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            access TEXT,
+            uses INTEGER DEFAULT 5
         )
         ''')
 
@@ -102,9 +149,8 @@ if not os.path.exists('content.db'):
         )
         ''')
 
-    print("db created")
 
-if '-a' in sys.argv:
+if '-a' in sys.argv or all_tags:
     with sqlite3.connect('content.db') as conn:
         cursor = conn.cursor()
         cursor.execute('''
@@ -115,8 +161,16 @@ if '-a' in sys.argv:
               'https://github.com/wingfooted',
               str(datetime.date.today()))
         )
+        cursor.execute('''
+        INSERT INTO users (username, name, password, github, signup)
+        VALUES(?, ?, ?, ?, ?)
+        ''', ('default', 'test_user',
+              "demo",
+              'N/A',
+              str(datetime.date.today()))
+        )
 
-if '-c' in sys.argv:
+if '-c' in sys.argv or all_tags:
     with sqlite3.connect('content.db') as conn:
         cursor = conn.cursor()
 
@@ -129,7 +183,7 @@ if '-c' in sys.argv:
               str(datetime.date.today()))
         )
 
-if '-ice' in sys.argv:
+if '-ice' in sys.argv or all_tags:
     if not os.path.exists('antarctica.db'):
         with sqlite3.connect('antarctica.db') as conn:
             cursor = conn.cursor()

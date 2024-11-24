@@ -1,0 +1,44 @@
+---
+title: "Why Reports & Report Writing Guide"
+editor: visual
+format: 
+  html:
+    toc: true
+    number-sections: true
+---
+
+## Why Write Reports?
+
+## How to Write Reports
+
+As no one wants to spend their holidays writing assesment grade reports, the standard report has been reduced to a few questions relevant to your project.
+Attatched to each problem you will find **approximately 3 questions ** that will help any reader gain a better understanding of your project.
+However, take this only as a guide, and if you want to include more or go above and beyond to showcase your work it is very appreciated.
+
+The three questions are intended as short answer questions, so a rough guide of 200 words is suggested, or however many things you want to talk about.
+
+**Remember**: That data science results are only as useful as they are inteligable. For the sake of your reader, the communication is just as useful as the results themself.
+
+Below you will find a few sections on a few software tools that can help you make nice looking / professional reports which include code blocks. However if you are comfortable using regular excel
+
+### Rstudio
+
+*For those with experience having complete data1001 or data2x02, you may skip this section.*
+
+Rstudio is a software primerily intended for academic use of data exploration and statistics with the R programming language, however having features such as quarto and a easy way to knit R markdown (rmd) and qmd files. 
+
+to get started you will want to install <a href="https://posit.co/download/rstudio-desktop/"> rstudio</a>. 
+
+::: {.column-margin}
+Python bruh moment
+:::
+
+
+
+
+### Quarto 
+
+Additionally, if you prefer using the CLI, you can use quarto from the cli.
+Making a quarto file 
+
+## A Few More Things

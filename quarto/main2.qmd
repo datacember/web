@@ -1,0 +1,61 @@
+---
+title: "datacember"
+editor: visual
+image: "images/penguin.png"
+format: 
+  html:
+    toc: true
+    number-sections: true
+---
+
+## Froth Flotation
+
+Froth flotation is an ore extraction technique
+
+</div>{=html}
+{% raw %}
+<table>
+<thead>
+<tr>
+<th>Task Name</th>
+<th>Status</th>  
+</tr>
+</thead>
+<tbody>
+{% for i in range(0, loop_length) %}
+<tr>
+<td>
+{% if status_open[i] %}
+<a href="{{ url_for('challenge', dynamic=link[i]) }}">
+	{{ names[i] }}
+</a>
+{% else %}
+{{ names[i] }}
+{% endif %}
+</td>
+<td>
+{% if status_open[i] %}
+🟢
+{% else %}
+ 🔴
+{% endif %}
+</td>  
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% endraw %}
+</div>
+
+
+
+
+
+## Testing2
+
+<div style="color: blue; text-align: center;">
+<h1>This is a custom HTML header</h1>
+<p>This paragraph is styled in blue and centered!</p>
+</div>
+
+

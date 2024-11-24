@@ -225,6 +225,14 @@ def get_user_from_token(token: str):
         output = cursor.fetchone()
     return output[0]
 
+def get_users():
+    # returns a list of all users
+    with sqlite3.connect('content.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT username, name FROM users;")
+        output = cursor.fetchall()
+    return output
+
 
 def startup_render():
     for filename in os.listdir('quarto'):
