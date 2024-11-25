@@ -24,9 +24,18 @@ ul.task-list li input[type="checkbox"] {
 
 .logo {font-family: 'Libre Baskerville', Serif;}
 .canvas-text {text-align: center;}
-#logo-big {letter-spacing: -0.095em; font-size: 5em;}
+#logo-big {letter-spacing: -0.08em; font-size: 7em;}
 #logo-sub {letter-spacing: -0.05em; font-size: 1.5em;}
-#logo-med {letter-spacing: -0.07em; font-size: 1em;}
+#logo-med {letter-spacing: -0.07em; font-size: 2em; width: 75vw; max-width: 75vw; justify-self: left;}
+header {display: flex; flex-direction: row; justify-content: center;
+	max-width: 100vw; width: 100vw;
+	margin: none; z-index: 3; position: fixed;
+	padding: 1vh;
+
+	}
+
+#challenges-table {
+	width: 100%;}
 
 </style>
 
@@ -55,16 +64,18 @@ ul.task-list li input[type="checkbox"] {
 
 <header>
 	<p id="logo-med" class="logo">Datacember</p>
+					<p id="users-name">Hello {{name}}</p>
+					<p id="point-tally"> {{points}} pts</p>
+				<p><a href="/logout">Sign Out</a></p>
 </header>
 
 <main class="content" id="quarto-document-content">
 
     
-<div class="wrapper-feature" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; position: relative;">
-<canvas id="lorenzCanvas" width="800%" height="491.2%" style="opacity; 0; position: absolute;">
-</canvas>
-<div class="canvas-text" style="z-index: 1; position">
-	<p class="logo" id="logo-big"><b>Datacember</b></p>
+<div class="wrapper-feature" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 80vh; position: relative;">
+<canvas id="lorenzCanvas" width="1000%" height="491.2%" style="opacity; 0; position: absolute;"></canvas>
+<div class="canvas-text" style="z-index: 1; position: absolute">
+	<p class="logo" id="logo-big">Datacember</p>
 	<p class="logo" id="logo-sub">Lorem ipsum dolor sit ament, consecutor adipiscing elit.</p>
 </div>
 <!--
@@ -90,17 +101,17 @@ Datacember
     // Lorenz parameters
     const sigma = 10; // Prandtl number
     const rho = 28; // Rayleigh number
-    const beta = 8 / 3; // Geometric factor
-   	let dt = 0.01; 
+    const beta = 9 / 3; // Geometric factor
+   	let dt = 0.006; 
 
 
     const points = [];
-    for (let i = 0; i < 400; i++) {
+    for (let i = 0; i < 20000; i++) {
             points.push({
-                x:  -0.001*i,
-                y: 0.001*i,
- 				z: 3,
-				color: `hsl(${20+i}, 110%, 60%)`
+                x:  i * 0.001,
+                y: 10+ i * 0.0001,
+ 				z: 0,
+				color: `hsl(${(140 + 0.01*(i % 120))}, 100%, 40%)`
             });
         }
 
@@ -120,12 +131,22 @@ Datacember
     // Scale factor
     const scale = 4;
 
+	/*
+	canvas.addEventListener('click', (event) => {
+		const rect = canvas.getBoundingClientRect(); // Get canvas bounds
+		const x = event.clientX - rect.left; // X coordinate relative to the canvas
+		const y = event.clientY - rect.top;  // Y coordinate relative to the canvas
+		points.push({x:x, y:y, z:0, color: `hsl(0, 100%, 50%)`});
+		console.log(`Clicked at: x=${x}, y=${y}`);
+	});
+	*/
+
     // Animation loop
     function animate() {
 		// if have fast fade, want to have slow waves
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.1)'; // Fading background
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.03)'; // Fading background
         pass();
-		dt = Math.max(dt * 0.9992, 0.001);
+		dt = Math.max(dt * 0.9993, 0.0015);
         
         ctx.fillRect(0, 0, width, height);
 
@@ -141,8 +162,8 @@ Datacember
 
             // Map attractor values to canvas
             // map x -> 3x
-            const px = cx + state.x * scale * 5.3;
-            const py = cy - state.z * scale * -3 - 450;
+            const px = cx + state.x * scale * 6;
+            const py = cy - state.z * scale * -3 - 500;
 
             // Draw the point
             ctx.beginPath();
@@ -162,6 +183,39 @@ Datacember
 <div class="column" style="width:50%;">
 <section id="challenges" class="level2">
 <h2 class="anchored" data-anchor-id="challenges">Challenges</h2>
+
+<table id="challenges-table">
+						<thead>
+							<tr>
+								<th>Task Name</th>
+								<th>Status</th>  
+							</tr>
+						</thead>
+						<tbody>
+							{% for i in range(0, loop_length) %}
+							<tr>
+								<td>
+									{% if status_open[i] %}
+									<a href="{{ url_for('challenge', dynamic=link[i]) }}">
+										{{ names[i] }}
+									</a>
+									{% else %}
+									{{ names[i] }}
+									{% endif %}
+								</td>
+								<td>
+									{% if status_open[i] %}
+									🟢
+									{% else %}
+									 🔴
+									{% endif %}
+								</td>  
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>		
+
+							
 </section>
 </div><div class="column" style="width:50%;">
 <section id="quicklinks" class="level2">
