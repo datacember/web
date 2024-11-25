@@ -78,29 +78,59 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="why-write-reports" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="why-write-reports"><span class="header-section-number">1</span> Why Write Reports?</h2>
+<p>Many (if not all) challenges you complete will require a report. But why reports?</p>
+<p>Reports are the most common medium for communicating your results. Their universality ensures that every participant, regardless of the project they choose, can produce a standardized output. However, if you have other ideas for presenting your results, we welcome your creativity and innovation.</p>
+<p>Reports can be submitted <a href="/submission">here</a> and should be in HTML or PDF format.</p>
 </section>
 <section id="how-to-write-reports" class="level2 page-columns page-full" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="how-to-write-reports"><span class="header-section-number">2</span> How to Write Reports</h2>
-<p>As no one wants to spend their holidays writing assesment grade reports, the standard report has been reduced to a few questions relevant to your project. Attatched to each problem you will find <strong>approximately 3 questions </strong> that will help any reader gain a better understanding of your project. However, take this only as a guide, and if you want to include more or go above and beyond to showcase your work it is very appreciated.</p>
-<p>The three questions are intended as short answer questions, so a rough guide of 200 words is suggested, or however many things you want to talk about.</p>
+<p>Since no one wants to spend their holidays writing lengthy assessment-grade reports, the standard report has been simplified to a few key questions relevant to your project. Attached to each problem, you’ll find approximately <strong>three questions</strong> designed to help readers better understand your work. However, consider these as guidelines only—if you wish to include more details or go above and beyond to showcase your work, it will be greatly appreciated.</p>
+<p>The three questions are designed as short-answer prompts, with a suggested guideline of approximately 200 words per question—or as many words as you need to convey your ideas.</p>
 <p><strong>Remember</strong>: That data science results are only as useful as they are inteligable. For the sake of your reader, the communication is just as useful as the results themself.</p>
-<p>Below you will find a few sections on a few software tools that can help you make nice looking / professional reports which include code blocks. However if you are comfortable using regular excel</p>
+<p>Below, you’ll find several sections on software tools that can help you create professional, polished reports, including those with code blocks. However, if you’re comfortable using regular Excel, feel free to continue with that.</p>
 <section id="rstudio" class="level3 page-columns page-full" data-number="2.1">
 <h3 data-number="2.1" class="anchored" data-anchor-id="rstudio"><span class="header-section-number">2.1</span> Rstudio</h3>
 <p><em>For those with experience having complete data1001 or data2x02, you may skip this section.</em></p>
-<p>Rstudio is a software primerily intended for academic use of data exploration and statistics with the R programming language, however having features such as quarto and a easy way to knit R markdown (rmd) and qmd files.</p>
+<p>RStudio is a software primarily designed for academic data exploration and statistics using the R programming language. It also includes features like Quarto and an easy way to knit R Markdown (.rmd) and Quarto (.qmd) files.</p>
 <p>to get started you will want to install <a href="https://posit.co/download/rstudio-desktop/"> rstudio</a>.</p>
 
 <div class="no-row-height column-margin column-container"><div class="">
-<p>Python bruh moment</p>
-</div></div></section>
+<p>To run reticulate (the r extension that enables python) you will need to seperately install python <a href="https://www.python.org/downloads/"> here</a>.</p>
+</div></div><p>Once you get rstudio working you can use one of the many existing templates in a rmd or qmd file, or use a yaml header at the top of your document. Then in the application you can run ‘knit’ to produce a pdf or html document.</p>
+<pre class="{yaml}"><code>---
+title: "Sample Quarto Document"
+author: "Your Name"
+date: "`r Sys.Date()`"
+format: 
+  html: 
+    toc: true
+    toc-depth: 2
+    code-fold: true
+  pdf: 
+    keep-tex: true
+    number-sections: true
+abstract: |
+  This is a sample Quarto document. 
+  It demonstrates the use of YAML metadata for customization.
+params:
+  example_param: "default_value"
+editor: visual
+---</code></pre>
+<p>If you are working with RStudio there are many templates available for your use. One such can be found in the footer (rticles).</p>
+</section>
 <section id="quarto" class="level3" data-number="2.2">
 <h3 data-number="2.2" class="anchored" data-anchor-id="quarto"><span class="header-section-number">2.2</span> Quarto</h3>
-<p>Additionally, if you prefer using the CLI, you can use quarto from the cli. Making a quarto file</p>
+<p>If you prefer using the CLI, you can use Quarto directly from the command line. Creating a Quarto file is as simple as adding a header like the one above, and then running quarto render file.qmd in the command line (assuming Quarto is installed).</p>
 </section>
 </section>
 <section id="a-few-more-things" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="a-few-more-things"><span class="header-section-number">3</span> A Few More Things</h2>
+<p>Considerations for Report Writing:</p>
+<p><em>What is the background of my reader?</em> You can assume that your readers are your peers—university students in data science or related fields.</p>
+<p><strong>Graphs!</strong> A picture is worth a thousand words, and graphs are an effective way to communicate ideas. Including graphs in Quarto and R Markdown (.rmd) files is particularly easy, as your output can be “knitted” directly into the report. Alternatively, including a graph as a screenshot is a great way to demonstrate your points.</p>
+<p><strong>Innovation</strong> While the questions provide a general direction for tackling the challenge or exploring the dataset, we encourage you to think creatively. If you believe there’s a more pressing question to explore, feel free to pursue it instead of sticking strictly to the suggested ones. Remember, these questions are simply prompts to inspire discussion and analysis of the dataset, summary, or model you’ve produced. Be innovative and try to stand out among your peers!</p>
+<p>General Report Guidelines: As always, standard report-writing principles apply. Discuss the limitations of your work and be transparent. Stick to a clear structure, but there’s no need for citations. Be concise—if you’re using language models for writing, ensure the content is direct and doesn’t waste the reader’s time. When submitting, take advantage of the “GitHub” section to include the code that produced your findings.</p>
+<p><strong>Good luck with your writing!</strong></p>
 </section>
 
 </main>
