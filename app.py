@@ -14,9 +14,13 @@ with open('config.yaml', 'r') as yaml_file:
     config = yaml.safe_load(yaml_file)
 
 app = Flask(__name__)
-app.secret_key = config['secret_key']
-
-limiter = Limiter(get_remote_address, app=app, default_limits=["999 per hour"])
+app.secret_key = config['secret_key'] + "" if (datetime.datetime.now().day % 3 != 0) else str(datetime.datetime.now().day)
+# wierd hack to clear the session every n days (6)
+ 
+limiter = Limiter(get_remote_address,
+                  app=app,
+                  default_limits=["999 per hour"]
+)
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
@@ -24,10 +28,13 @@ def index():
         return redirect(url_for('login'))
   
     # TODO, 2024 12, 10 is a debug
-    names, link, status_open = functions.get_challenges(datetime.date(2024, 12, 28))
+
+    names, link, status_open = functions.get_challenges(datetime.datetime.today())
+    # names, link, status_open = functions.get_challenges(datetime.date(2024, 12, 28)) # Debugging Date
     return render_template('main.html',
                            days=functions.days_until_end_of_december(),
                            name=session['name'],
+                           points=session['points'],
                            names=names,
                            link=link,
                            status_open=status_open,
@@ -46,6 +53,7 @@ def login():
         session['auth'] = usercred['auth']
         session['username'] = usercred['username']
         session['name'] = usercred['name']
+        session['points'] = usercred['points']
         if not session['username']:
             return render_template('login.html', msg="wrong username")
         elif not session['auth']:
@@ -85,9 +93,18 @@ def logout():
 @app.route("/challenge/<dynamic>")
 @limiter.limit("30 per minute")
 def challenge(dynamic):
-    # TODO check_valid_challenge()
-    check_valid_challenge = lambda x: True
-    # TODO check_upkeep 
+
+    def check_valid_challenge(challenge):
+        if challenge == 'cold':
+            return True
+        elif challenge == 'mining':
+            return True
+        elif challenge == 'stars':
+            return True
+        elif challenge == 'news':
+            return True
+        else:
+            return False
 
     if not is_kept(dynamic):
         upkeep(dynamic)
@@ -97,12 +114,43 @@ def challenge(dynamic):
         return render_template(f'{dynamic}.html')
 
     else:
+        return redirect(url_for('index'))
         return dynamic
+
+@app.route("/give-points/<dir>/<quantity>/<target>/<username>/<password>")
+@limiter.limit("1 per second")
+def point_update(dir, quantity, target, username, password):
+    #1 indicates positive
+    #0 indicates negative
+    if username == "wingfooted":
+        if functions.authenticate_user(username, password)['auth']:
+
+            # checking the input
+            if not (dir == "0" or dir == "1"):
+                return "dir value not valid", 400
+
+            if not (quantity.isnumeric()):
+                return "quantity not a number", 400
+
+            dir = int(dir) * 2 - 1
+
+            functions.update_points(target, int(quantity) * dir)
+            return f"given {target} {dir * int(quantity)} pts"
+
+
+        else: 
+            return "incorrect username + password", 400
+    else:
+        return "forbidden not admin", 400
+
 
 @app.route("/guide/<dynamic>")
 @limiter.limit("30 per minute")
 def guide(dynamic):
-    check_valid_guide = lambda x: True
+    def check_valid_guide(guide):
+        if guide in ['thanks', 'submissions', 'reports', 'points', 'welcome', 'sql', 'privacy']:
+            return True
+        return False
 
     if not is_kept(dynamic):
         upkeep(dynamic)
@@ -114,8 +162,8 @@ def guide(dynamic):
     else:
         return dynamic
 
-@app.route("/workspace")
-def workspace():
+@app.route("/workbench")
+def workbench():
     if session.get('auth') != True:
         return redirect(url_for('login'))
 
@@ -123,17 +171,19 @@ def workspace():
     # improvement
     #
     # session['auth'] => username + password => mint token
+
     token = functions.create_token(session['username'], password="placeholder")
 
-    return render_template('workspace.html', token=token)
+    return render_template('workspace.html', token=token, name=session['name'], points=session['points'])
 
-@app.route("/sql", methods=['GET', 'POST'])
+@app.route("/sql", methods=['POST'])
 @limiter.limit("20 per minute")
 def sql():
     if request.method == 'POST':
         data = request.get_json()
         sql = data.get('sql')
         token = data.get('token')
+        print("PRINTING AT THE NAIVE RECIEVE LEVEL", sql, token, sep="\n")
 
         # Error 1: token sql not in tact
         # Error 2: token invalid / expired
@@ -153,13 +203,15 @@ def sql():
                 start = time.time()
                 cursor = conn.cursor()
                 cursor.execute(sql)
+                header = [description[0] for description in cursor.description]
                 output = cursor.fetchall()
                 length_output = len(output)
                 end = time.time()
                 user = functions.get_user_from_token(token)
                 functions.create_query(sql, str(datetime.datetime.today()),
                                        end-start, length_output, token, user)
-                return jsonify({'content': output}), 200
+                print(sql, header, output, end-start, sep="\n")
+                return jsonify({'content': output, 'header': header, 'runtime': f"{end - start:.4f}", 'rows': length_output}), 200
                 # add functionality, appending to dataframes
 
         except sqlite3.OperationalError as OppErr:
@@ -167,9 +219,6 @@ def sql():
 
         except sqlite3.Error as generic_error:
             return jsonify({"error": str(generic_error)}), 400
-
-        return jsonify({"content": "moment", "token": functions.validate_token(token)}), 200
-
 
 @app.route('/auth', methods=['POST', 'GET'])
 @limiter.limit("10 per minute")
@@ -218,9 +267,4 @@ def guide(title):
 """
 
 if __name__ == '__main__':
-    # TODO find a way to render
-    # naive start up render does not work
-    # for instance, cold.qmd requires app
-    # but adding startup render makes app require cold.qmd
-    # circular dependancy
-    app.run(debug=True, port=8999, host='0.0.0.0')
+    app.run(debug=True, port=8997, host='0.0.0.0')

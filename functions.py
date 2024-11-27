@@ -49,6 +49,17 @@ def create_user(username: str,
     # true if created user sucsessfully,
     # false if not created sucsessfully
 
+def update_points(user, points: int):
+    # can assume that user is a user
+    with sqlite3.connect('content.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute(
+                f"""
+                UPDATE users SET points = points + ? WHERE username = ?
+                """, (points, user)
+        )
+
+
 
 def authenticate_user(username: str,
                       password: str) -> Dict:
@@ -67,7 +78,7 @@ def authenticate_user(username: str,
     with sqlite3.connect('content.db') as conn:
         cursor = conn.cursor()
         cursor.execute("""
-            SELECT username, name, password
+            SELECT username, name, password, points
             FROM users
             WHERE username = ?
         """, (username,)
@@ -77,9 +88,10 @@ def authenticate_user(username: str,
     if user:
         output['username'] = user[0]
         output['name'] = user[1]
+        output['points'] = user[3]
         password = user[2]
     else:
-        return {"auth": False, "username": False, "name": False}
+        return {"auth": False, "username": False, "name": False, "points": 0}
 
     output['auth'] = True if password == hashed_password else False
     output['name'] = output['name'] if output['auth'] else False
@@ -195,7 +207,7 @@ def validate_token(token: str) -> bool:
         db_year, db_month, db_day, db_hour, db_minute = token[3:]
         current_unix_time = unix_time(year, month, day, hour, minute)
         token_mint_unix_time = unix_time(*token[3:])
-        expiry_time = 1 # in minutes
+        expiry_time = 10 # in minutes
         if token_mint_unix_time + expiry_time < current_unix_time:
             return False
 

@@ -82,7 +82,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#stars" id="toc-stars" class="nav-link active" data-scroll-target="#stars"><span class="header-section-number">1</span> Stars</a></li>
   <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"><span class="header-section-number">2</span> Data</a></li>
   <li><a href="#fun-facts-about-stars" id="toc-fun-facts-about-stars" class="nav-link" data-scroll-target="#fun-facts-about-stars"><span class="header-section-number">3</span> Fun Facts about Stars</a></li>
-  <li><a href="#brief" id="toc-brief" class="nav-link" data-scroll-target="#brief"><span class="header-section-number">4</span> Brief</a></li>
+  <li><a href="#your-task" id="toc-your-task" class="nav-link" data-scroll-target="#your-task"><span class="header-section-number">4</span> Your Task</a>
+  <ul class="collapse">
+  <li><a href="#simple-star-charectaristics-report" id="toc-simple-star-charectaristics-report" class="nav-link" data-scroll-target="#simple-star-charectaristics-report"><span class="header-section-number">4.1</span> Simple: Star Charectaristics Report</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">4.2</span> </a></li>
+  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1"><span class="header-section-number">4.3</span> </a></li>
+  </ul></li>
   <li><a href="#need-a-hint" id="toc-need-a-hint" class="nav-link" data-scroll-target="#need-a-hint"><span class="header-section-number">5</span> Need a Hint?</a></li>
   </ul>
 </nav>
@@ -127,6 +132,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>The aim here is to see if we can predict a star’s type just based on these physical attributes.</p>
 <p>The type column indicates the type of star you are dealing with.</p>
+<p><strong>You can install the data <a href="https://www.github.com/datacemebr/stars">here</a>.</strong></p>
 </section>
 <section id="fun-facts-about-stars" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="fun-facts-about-stars"><span class="header-section-number">3</span> Fun Facts about Stars</h2>
@@ -136,15 +142,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><strong>The Sun is Average, But Essential</strong>: Despite being a modestly sized, G-type main-sequence star, the Sun’s stable energy output makes it perfect for sustaining life on Earth.</p></li>
 </ol>
 </section>
-<section id="brief" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="brief"><span class="header-section-number">4</span> Brief</h2>
+<section id="your-task" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="your-task"><span class="header-section-number">4</span> Your Task</h2>
+<p>For your first task, we encourage you to select one of the options below. They range from simple to more advanced. You can read about what points are, and how they are calculated <a href="guides/points"> here</a>.</p>
+<p>All these submissions require a report. You can refer to the report writing guide <a href="/guides/report">here. </a></p>
+<section id="simple-star-charectaristics-report" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="simple-star-charectaristics-report"><span class="header-section-number">4.1</span> Simple: Star Charectaristics Report</h3>
 <p><strong>Challenge Option</strong>: Build a model that accurately predicts star type based on its characteristics, and write a concise report detailing your approach and findings.</p>
+</section>
+<section id="section" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="section"><span class="header-section-number">4.2</span> </h3>
 <p><strong>Complex</strong>: Try produce a model that predicts star type based on a stars other features and write up a short rmd / qmd report on it.</p>
+</section>
+<section id="section-1" class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="section-1"><span class="header-section-number">4.3</span> </h3>
 <p><strong>Simple</strong>: If your stuck and looking for something simpler, try write up report on the types of charectaristics exhibited by each star type.</p>
+</section>
 </section>
 <section id="need-a-hint" class="level2" data-number="5">
 <h2 data-number="5" class="anchored" data-anchor-id="need-a-hint"><span class="header-section-number">5</span> Need a Hint?</h2>
-<p>If youre using R Studio, you can filter a dataframe like this.</p>
+<p>If youre new to coding, you can filter a dataframe (csv object) using R Studio like this.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -152,27 +169,73 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>filtered_for_type_1 <span class="ot">=</span> data <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="at">type =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>In Python you can do some filtering on the fly when you traverse a dataframe</p>
+<p>In Python you can use the Pandas library for simmilar operations.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>temperature_means <span class="op">=</span> <span class="bu">dict</span>() <span class="co"># initialize some empty data store</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>first_row <span class="op">=</span> <span class="va">True</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> line <span class="kw">in</span> <span class="bu">open</span>(<span class="st">'stars.csv'</span>):</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  line <span class="op">=</span> line.rstrip(<span class="st">'</span><span class="ch">\n</span><span class="st">'</span>).split(<span class="st">','</span>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> <span class="bu">type</span><span class="op">:=</span>line[<span class="dv">7</span>]<span class="op">==</span><span class="dv">5</span>:</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># do something</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Or use the pandas library</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>stars <span class="op">=</span> pd.read_csv(<span class="st">'stars.csv'</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>stars <span class="op">=</span> stars[stars[<span class="st">'Type'</span>]<span class="op">==</span><span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>stars <span class="op">=</span> pd.read_csv(<span class="st">'stars.csv'</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>stars <span class="op">=</span> stars[stars[<span class="st">'Type'</span>]<span class="op">==</span><span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>For a no-code option you can use Excel.</p>
 </section>
 
-</main>
+</main>			<footer style="
+background-color: rgb(33, 33, 33);
+width: 100vw;
+maxwidth: 100vw;
+color: white;
+display: flex;
+margin-top: 5vh;
+padding-top: 5vh;
+padding-bottom: 5vh;
+justify-content: space-evenly;
+position: relative; /* Positioning context for any additional tweaks */
+left: 50%; /* Move the footer to the middle */
+transform: translateX(-45%);
+				">
+
+				<style>html{padding:0;margin:0;}</style>
+
+				<div class="col">
+					<div class='logo' style="letter-spacing: -0.07em; font-size: 2em; font-family: 'Libre Baskerville', serif;">
+						Datacember	
+					</div>
+					<br>
+					<p style="font-size: 0.8em;"><i>A Datascience December Challenge</i></p>
+				</div>
+
+				<div class="col" style="display:block; line-height: 1vh;">
+					<p class="footer-title" style="font-size: 1.25em; letter-spacing: -0.07; font-family: 'Libre Baskerville', serif;">DataScience</p>
+					<hr style="color: white;">
+					<p><a style="color: white; text-decoration: none; font-size:0.8em;" href="
+						https://pkgs.rstudio.com/rticles/articles/rticles.html
+						">rticles templates</a></p>
+					<p><a style="color: white; text-decoration: none; font-size:0.8em;" href="
+						https://flax.readthedocs.io/en/latest/
+						">Flax - ML library</a></p>
+					<p><a style="color: white; text-decoration: none; font-size:0.8em;" href="https://r4ds.hadley.nz">R for Data Science</a></p>
+				</div>
+
+				<div class="col" style="display:block; line-height: 1vh;">
+					<p class="footer-title" style="font-size: 1.25em; letter-spacing: -0.07; font-family: 'Libre Baskerville', serif;">Developer</p>
+					<hr style="color: white;">
+					<p><a style="color: white; text-decoration: none; font-size:0.8em;" href="https://github.com/datacember/web">website source code</a></p>
+				</div>
+
+				<div class="col" style="display:block; line-height: 1vh;">
+					<p class="footer-title" style="font-size: 1.25em; letter-spacing: -0.07; font-family: 'Libre Baskerville', serif;">Other</p>
+					<hr style="color: white;">
+					<p><a style="color: white; text-decoration: none; font-size:0.8em;" href="/guide/privacy">privacy</a></p>
+					<p><a style="color: white; text-decoration: none; font-size:0.8em;" href="/guide/privacy">privacy</a></p>
+					<p><a style="color: white; text-decoration: none; font-size:0.8em;" href="/guide/thanks">Thanks!</a></p>
+					<p style="font-size:0.8em;">contact:</p>
+					<p style="font-size:0.8em;">alexanderjwells04@gmail.com</p>
+				</div>
+
+
+			</footer>
+
+
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {

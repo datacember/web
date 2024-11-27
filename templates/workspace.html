@@ -1,87 +1,244 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Datacember - Workspace</title>
-		<!--<link rel="stylesheet" href="workspace.css">-->
-</head>
-<body>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>SQL Online Workbench</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.11/codemirror.min.css">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+		<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+		<style>
 
-		<h2> Workspace </h2>
 
-		<div id="content-div">
-        content
-    	</div>
-		<main>
-			<div class="code-cell" contenteditable="true">
-				<div id="code">
-				SELECT * FROM davis LIMIT 1000;	
-				</div>
-				<button id="run" type="button"></button>
-			</div>
-		</main>
-		
+			.logo {font-family: 'Libre Baskerville', Serif;}
+	.canvas-text {text-align: center;}
+	#logo-big {letter-spacing: -0.08em; font-size: 7em;}
+	#logo-sub {letter-spacing: -0.05em; font-size: 1.5em;}
+	#logo-med {letter-spacing: -0.07em; font-size: 2em; width: 75vw; max-width: 75vw; justify-self: left;}
+	header {display: flex; flex-direction: row; justify-content: center;
+	max-width: 100vw; width: 100vw;
+	margin: none; z-index: 3; position: fixed;
+				padding: 1vh;}
+		/* Catppuccin Latte colors */
+		.CodeMirror {
+			background: #eff1f5; /* Base background */
+			color: #4c4f69; /* Base foreground */
+		}
+		.cm-keyword { color: #ea76cb; font-weight: bold; } /* Red for SQL keywords */
+		.cm-operator { color: #d20f39; } /* Pink for operators */
+		.cm-variable { color: #7287fd; } /* Blue for variables */
+		.cm-string { color: #40a02b; } /* Green for strings */
+		.cm-comment { color: #9ca0b0; font-style: italic; } /* Gray for comments */
+		.cm-number { color: #df8e1d; } /* Orange for numbers */
 
-		<!-- Token form -->
-		<form>
-			<input type="hidden" id="token_field" name="token_form" value="{{token}}">
-		</form>
+		/* Code editor styling */
 
+
+		#sql-output-1 {overflow: auto; max-width: 100vw;}
+
+		/* Doc styling */
+		body {
+			margin: 0;
+			padding: 0;
+			min-height: 100vh;
+		}
+			main {margin-left: 20vw; margin-right: 20vw; padding: 10vw;min-height:100vh;}
+		</style>
 		<script>
-		
-		let sql
-		let payload
-		let tokenValue // get the token value in the field
 
-        document.addEventListener("DOMContentLoaded", function() {
-            tokenValue = document.getElementById("token_field").value;
-            console.log(tokenValue);
-            // document.getElementById("content-div").innerText = tokenValue;
-        });
-
-		const run = document.getElementById("run");
-		run.addEventListener("click", function() {
-			// function
-			// get the sql code and send it to the server
-			sql = document.getElementById("code").innerText;
-			console.log(sql);
-			console.log(tokenValue);
-			payload = {
-				"token": tokenValue,
-				"sql": sql
-			}
-
-		});
-		
-		const destination = "http://127.0.0.1:8999/sql";
-
-		const response = await fetch(destination, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(payload)
-		});;
-
-		const data = await response.json();
-		console.log('data', data);
-
+		const token = '{{token}}';
+		const url = window.location.href.replace("workbench", "sql"); // url destination
 
 		</script>
-		<style>
-		main {
-			margin-left: 15%; margin-right: 15%;
-		}
-		.code-cell {
-			background-color: lightgrey;
-			font-family: Helvetica, sans-serif;
-			font-size: 1.5rem;
-		}
 
-		</style>
+	</head>
+	<body>
 
-</body>
+			<header>
+				<p id="logo-med" class="logo">Datacember</p>
+				<p id="users-name">Hello {{name}} | {{points}} pts | </p>
+				<p><a href="/logout">Sign Out</a></p>
+			</header>
+
+		<main>
+
+
+			<!-- Code editor Area -->
+			<div class="sql-cell-wrapper">
+				<div class="sql-controls">
+					<button type="button" class="download-button" id="download-button-1">🔽</button>
+					<button type="button" class="execute-button" id="execute-button-1">▶️</button>
+				</div>	
+				<textarea id="sql-editor">SELECT * FROM mawson WHERE WindDir3pm = "SW" LIMIT 10;</textarea>
+				<div class="sql-errors" id="sql-errors-1">
+
+				</div>
+				<div class="sql-output" id="sql-output-1">
+
+				</div>
+			</div>	
+
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.11/codemirror.min.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.11/mode/sql/sql.min.js"></script>
+
+
+
+			<script>
+			/* Code Mirror Section */
+			var editor = CodeMirror.fromTextArea(
+				document.getElementById("sql-editor"), {
+					mode: "text/x-sql",
+					theme: "catppuccin-latte", 
+					lineNumbers: true
+				});
+			</script>
+
+		</main>
+
+		<footer style="
+background-color: rgb(33, 33, 33);
+width: 100vw;
+max-width: 100vw;
+color: white;
+display: flex;
+margin-top: 0;
+padding-top: 5vh;
+padding-bottom: 5vh;
+justify-content: space-evenly;
+">
+			<div class="col">
+				<div class='logo' style="letter-spacing: -0.07em; font-size: 2em; font-family: 'Libre Baskerville', serif;">
+					Datacember	
+				</div>
+				<p style="font-size: 0.8em;"><i>A Datascience December Challenge</i></p>
+			</div>
+			<div class="col" style="display:block; line-height: 1vh;">
+				<p class="footer-title" style="font-size: 1.25em; letter-spacing: -0.07; font-family: 'Libre Baskerville', serif;">DataScience</p>
+				<hr style="color: white;">
+				<p><a style="color: white; text-decoration: none; font-size:0.8em;" href="
+					https://pkgs.rstudio.com/rticles/articles/rticles.html
+					">rticles templates</a></p>
+				<p><a style="color: white; text-decoration: none; font-size:0.8em;" href="
+					https://flax.readthedocs.io/en/latest/
+					">Flax - ML library</a></p>
+				<p><a style="color: white; text-decoration: none; font-size:0.8em;" href="https://r4ds.hadley.nz">R for Data Science</a></p>
+			</div>
+			<div class="col" style="display:block; line-height: 1vh;">
+				<p class="footer-title" style="font-size: 1.25em; letter-spacing: -0.07; font-family: 'Libre Baskerville', serif;">Developer</p>
+				<hr style="color: white;">
+				<p><a style="color: white; text-decoration: none; font-size:0.8em;" href="https://github.com/datacember/web">website source code</a></p>
+			</div>
+			<div class="col" style="display:block; line-height: 1vh;">
+				<p class="footer-title" style="font-size: 1.25em; letter-spacing: -0.07; font-family: 'Libre Baskerville', serif;">Other</p>
+				<hr style="color: white;">
+				<p><a style="color: white; text-decoration: none; font-size:0.8em;" href="/guide/privacy">privacy</a></p>
+				<p><a style="color: white; text-decoration: none; font-size:0.8em;" href="/guide/privacy">privacy</a></p>
+				<p><a style="color: white; text-decoration: none; font-size:0.8em;" href="/guide/thanks">Thanks!</a></p>
+				<p style="font-size:0.8em;">contact:</p>
+				<p style="font-size:0.8em;">alexanderjwells04@gmail.com</p>
+			</div>
+		</footer>
+
+	</body>
+	<script>
+
+	const output = document.getElementById("sql-output-1");
+	const errors = document.getElementById("sql-errors-1");
+
+
+	document.getElementById("execute-button-1").addEventListener("click", function () {
+
+		// clear output and errors
+		output.innerHTML = '';
+		errors.innerHTML = '';
+
+		const query = editor.getValue();
+
+		console.log(token);
+		console.log(query);
+		console.log(url);
+
+		// add the javascript fetch response
+
+		fetch(url, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				"token": token,
+				"sql": query
+			})
+		})
+			.then( response => {
+				/* http error handling  */
+
+				if (!response.ok) {
+					throw new Error("HTTP error detected")
+				}
+				return response.json()
+			})
+			.then(data => {
+				/* Data handling */
+				// content 
+				// header
+				// runtime
+
+				console.log(data);
+				console.log(data.runtime);
+				console.log(data.content);
+				console.log(data.header);
+
+				const content = data.content;
+				const header = data.header;
+
+				/* making the data table */
+				const table = document.createElement('table');
+				const thead = document.createElement('thead');
+				const tbody = document.createElement('tbody');
+
+				const tableheaderrow = document.createElement('tr');
+				header.forEach(point => {
+					const th = document.createElement('th'); 
+					th.textContent = point;
+					thead.appendChild(th);
+				});
+
+				table.append(thead);
+
+				content.forEach(row => {
+					const tr = document.createElement('tr');
+
+					row.forEach(point => {
+						const td = document.createElement('td');
+						td.textContent = point;
+						tr.appendChild(td);
+					});
+
+					tbody.appendChild(tr);
+				});
+				table.append(tbody);
+				output.append(table);
+
+				/* render the run time*/
+				const runtime = document.createElement('p');
+				runtime.class = 'status-message';
+				runtime.textContent = `Found ${data.rows} in ${data.runtime} seconds`;
+				errors.appendChild(runtime);
+			})
+			.catch(error => {
+				/* log the error in the status section */
+				console.log(error);
+				const errormsg = document.createElement('p');
+				errormsg.class = 'error-message';
+				errormsg.textContent = error;
+				errors.appendChild(errormsg);
+			});
+	});
+
+	</script>
 </html>
-
-

@@ -1,6 +1,8 @@
 import sys
 import os
 import shutil
+from bs4 import BeautifulSoup
+
 
 def is_kept(name: str) -> bool:
     """ defines a method to check if the format is done
@@ -67,8 +69,12 @@ def upkeep(name) -> None:
         with open(f'quarto/{name}.html', 'r', encoding='utf-8') as html:
             content = html.read()
 
+        with open('templates/footer.html' , 'r', encoding='utf-8') as footer_html:
+            footer = footer_html.read()
+
         content = content.replace('images/', '/static/images/')
         content = content.replace(f'{name}_files/', f'/static/{name}_files/')
+        content = content.replace("</main>", f"</main>{footer}")
 
         with open(f'quarto/{name}.html', 'w', encoding='utf-8') as html:
             html.write(content)

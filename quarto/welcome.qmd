@@ -1,0 +1,90 @@
+
+---
+title: "Welcome to Datacember!"
+editor: visual
+format: 
+  html:
+    toc: true
+    number-sections: true
+---
+
+Hello!
+
+Thank you for particpating in Datacember I hope that through this month you will be able to get some experience with a few projects, push your knowledge a bit further, and having fun in this challenge.
+I hope that you will be able to come away with a project or two in modelling or EDA and something to be proud of.
+
+This should be a little quickstart guide, letting you know how things will work, where to find everything and what to expect.
+
+
+## A little about the challenge
+
+Datacember is a month long data science challenge.
+Each week a new challenge with a new dataset will be released aimed at inspiring your thought in datascience. You will be able to work throught the week to complete this challenge, and answer a few questions about your work in a report. Upon submission you will recieve grading, which is a process that will repeat for the 4 weeks of December.
+
+At the end, we will try to showcase the best of the work and try produce some fully fledge reports on the data and the most interesting findings in a mock journal. Refer to the below sections to get a good understanding of how things will work. 
+
+*The <a href="/"> home page </a> will be the central directory where you can find everything. Discord, Challenges, Guides and more.*
+
+## Prior Expectations
+
+Entering this challenge, there is an expectation that you will have a foundation of coding expereience (hopefully in R, or python or sql).While we understand that some people may not have this background, we have tried to make the challenges self elected, and the tools you use option.
+*Its important to note, that we care about your findings, not the methods used to find them*. This means that if youre really proficient with excel you can complete this challenge all in excel! Or if you want to learn python, this would be a great way to gain some epxerience coding in pandas (a python library). However, to make most advantage, it is best that you understand python. See our discord if you have any questions. 
+
+Additionally, there is no assumption that you have a statistics or datasciene background. Just take the challenges at wherever you are, and see what you find. This could be a great way to brush up on some statistics, or learn a few practical things. While a throughough knowledge of stats will help you, it is not necessary.
+
+If your looking for some resources for datascience you can refer to the footer of this page.
+
+## Challenges
+
+Challenges will be released approximately every week. Each challenge description will contain all the necessary information you need to get started with your datascience journey. The first challenge is <a href="challenges/stars">right out now!</a>
+
+Challenges difficulty is self tailored. Each challenge has 3 streams, **easy**, **medium** and **hard**, with additional leeway given to participants to opt for **wildcard**. Read through the descriptions and pick the one that resonantes most with you or you think you can do the most. 
+
+### Data in the Challenges
+
+Each challenge breif (<a href="/">found on the home page </a>) will contain all the information on where to find the data. Sometimes you will have to downlaod it from the internet, and other times you will have to use sql to acsess a database.
+
+The data is mostly 'structured' data, although there is one week on 'unstructured' data. Additionally, two weeks are on time series data, so you may really want to learn some timeseries modelling technique and really learn about it over two weeks.
+
+### What to do in the Challenges
+
+Each challenge will give a somewhat vague guide on what you should do. Once you have selected your challenge stream for this week, you can undertake some research and discover what kinds of ways you want to take the challenge, or get started on working if you allready know what kind of approach you'd like to take.
+
+If your stuck and needing more hints, leave a message on the discord server, or message me directly.
+
+### What to Do once Ive finished the challenge
+
+Once you have completed your coding section or analysis, if you head back to the home page, you can use the **quicklinks** section to navigate to the submissions form. Submit your work there and await grading
+
+For more on submissions you can find a submissions guide <a href="/guide/submissions">here.</a>
+
+<a href="/challenge/stars">Your first challenge is out now!</a>
+
+## Points
+
+Points are awarded as a way to keep progress.
+You can find the guide on points <a href="/guide/points"> here</a>.
+
+## Bugs
+
+For better or for worse, this is a project administered and coded all by me. So im sure there are going to be a few hijinks along the way.
+
+If you notice a bug tell me direcetly and score <a href="guide/points">additional points!</a>
+
+I have made the github code public in the footer of this page, but don't look at it too hard because Im sure that your sickness will be positively correlated with time spent viewing the code.
+
+## RULES!
+
+There arent any major rules in this challenge but we expect that everyone will be respectful to one another and not plagarize. Using generative ai is fair game, but if you are going to use chatgpt don't waste other peoples time and make the writing short, concise, relevant and specific. No citation or anything is expected either.
+
+While there are no rules, you may want to still read these guides if you have questions. It ought to give you better idea of how to maximize your time in the challenge.
+
+## Final Words!
+
+Make sure to join the discord. It will serve as the community for this challenge.
+And remember that you can find all the links you'd ever need on the home page.
+
+Above all, have fun!
+
+- Alexander
+

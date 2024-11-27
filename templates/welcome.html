@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Why Reports &amp; Report Writing Guide</title>
+<title>Welcome to Datacember!</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,16 +23,16 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="/static/reports_files/libs/clipboard/clipboard.min.js"></script>
-<script src="/static/reports_files/libs/quarto-html/quarto.js"></script>
-<script src="/static/reports_files/libs/quarto-html/popper.min.js"></script>
-<script src="/static/reports_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="/static/reports_files/libs/quarto-html/anchor.min.js"></script>
-<link href="/static/reports_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="/static/reports_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="/static/reports_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="/static/reports_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="/static/reports_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="/static/welcome_files/libs/clipboard/clipboard.min.js"></script>
+<script src="/static/welcome_files/libs/quarto-html/quarto.js"></script>
+<script src="/static/welcome_files/libs/quarto-html/popper.min.js"></script>
+<script src="/static/welcome_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="/static/welcome_files/libs/quarto-html/anchor.min.js"></script>
+<link href="/static/welcome_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="/static/welcome_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="/static/welcome_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="/static/welcome_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="/static/welcome_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -45,21 +45,25 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#why-write-reports" id="toc-why-write-reports" class="nav-link active" data-scroll-target="#why-write-reports"><span class="header-section-number">1</span> Why Write Reports?</a></li>
-  <li><a href="#how-to-write-reports" id="toc-how-to-write-reports" class="nav-link" data-scroll-target="#how-to-write-reports"><span class="header-section-number">2</span> How to Write Reports</a>
+  <li><a href="#a-little-about-the-challenge" id="toc-a-little-about-the-challenge" class="nav-link active" data-scroll-target="#a-little-about-the-challenge"><span class="header-section-number">1</span> A little about the challenge</a></li>
+  <li><a href="#prior-expectations" id="toc-prior-expectations" class="nav-link" data-scroll-target="#prior-expectations"><span class="header-section-number">2</span> Prior Expectations</a></li>
+  <li><a href="#challenges" id="toc-challenges" class="nav-link" data-scroll-target="#challenges"><span class="header-section-number">3</span> Challenges</a>
   <ul class="collapse">
-  <li><a href="#rstudio" id="toc-rstudio" class="nav-link" data-scroll-target="#rstudio"><span class="header-section-number">2.1</span> Rstudio</a></li>
-  <li><a href="#quarto" id="toc-quarto" class="nav-link" data-scroll-target="#quarto"><span class="header-section-number">2.2</span> Quarto</a></li>
+  <li><a href="#data-in-the-challenges" id="toc-data-in-the-challenges" class="nav-link" data-scroll-target="#data-in-the-challenges"><span class="header-section-number">3.1</span> Data in the Challenges</a></li>
+  <li><a href="#what-to-do-in-the-challenges" id="toc-what-to-do-in-the-challenges" class="nav-link" data-scroll-target="#what-to-do-in-the-challenges"><span class="header-section-number">3.2</span> What to do in the Challenges</a></li>
+  <li><a href="#what-to-do-once-ive-finished-the-challenge" id="toc-what-to-do-once-ive-finished-the-challenge" class="nav-link" data-scroll-target="#what-to-do-once-ive-finished-the-challenge"><span class="header-section-number">3.3</span> What to Do once Ive finished the challenge</a></li>
   </ul></li>
-  <li><a href="#a-few-more-things" id="toc-a-few-more-things" class="nav-link" data-scroll-target="#a-few-more-things"><span class="header-section-number">3</span> A Few More Things</a></li>
+  <li><a href="#points" id="toc-points" class="nav-link" data-scroll-target="#points"><span class="header-section-number">4</span> Points</a></li>
+  <li><a href="#bugs" id="toc-bugs" class="nav-link" data-scroll-target="#bugs"><span class="header-section-number">5</span> Bugs</a></li>
+  <li><a href="#rules" id="toc-rules" class="nav-link" data-scroll-target="#rules"><span class="header-section-number">6</span> RULES!</a></li>
   </ul>
 </nav>
 </div>
-<main class="content page-columns page-full" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Why Reports &amp; Report Writing Guide</h1>
+<h1 class="title">Welcome to Datacember!</h1>
 </div>
 
 
@@ -76,61 +80,60 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="why-write-reports" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="why-write-reports"><span class="header-section-number">1</span> Why Write Reports?</h2>
-<p>Many (if not all) challenges you complete will require a report. But why reports?</p>
-<p>Reports are the most common medium for communicating your results. Their universality ensures that every participant, regardless of the project they choose, can produce a standardized output. However, if you have other ideas for presenting your results, we welcome your creativity and innovation.</p>
-<p>Reports can be submitted <a href="/submission">here</a> and should be in HTML or PDF format.</p>
+<p>Hello!</p>
+<p>Thank you for particpating in Datacember I hope that through this month you will be able to get some experience with a few projects, push your knowledge a bit further, and having fun in this challenge. I hope that you will be able to come away with a project or two in modelling or EDA and something to be proud of.</p>
+<p>This should be a little quickstart guide, letting you know how things will work, where to find everything and what to expect.</p>
+<section id="a-little-about-the-challenge" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="a-little-about-the-challenge"><span class="header-section-number">1</span> A little about the challenge</h2>
+<p>Datacember is a month long data science challenge. Each week a new challenge with a new dataset will be released aimed at inspiring your thought in datascience. You will be able to work throught the week to complete this challenge, and answer a few questions about your work in a report. Upon submission you will recieve grading, which is a process that will repeat for the 4 weeks of December.</p>
+<p>At the end, we will try to showcase the best of the work and try produce some fully fledge reports on the data and the most interesting findings in a mock journal. Refer to the below sections to get a good understanding of how things will work.</p>
+<p><em>The <a href="/"> home page </a> will be the central directory where you can find everything. Discord, Challenges, Guides and more.</em></p>
 </section>
-<section id="how-to-write-reports" class="level2 page-columns page-full" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="how-to-write-reports"><span class="header-section-number">2</span> How to Write Reports</h2>
-<p>Since no one wants to spend their holidays writing lengthy assessment-grade reports, the standard report has been simplified to a few key questions relevant to your project. Attached to each problem, you’ll find approximately <strong>three questions</strong> designed to help readers better understand your work. However, consider these as guidelines only—if you wish to include more details or go above and beyond to showcase your work, it will be greatly appreciated.</p>
-<p>The three questions are designed as short-answer prompts, with a suggested guideline of approximately 200 words per question—or as many words as you need to convey your ideas.</p>
-<p><strong>Remember</strong>: That data science results are only as useful as they are inteligable. For the sake of your reader, the communication is just as useful as the results themself.</p>
-<p>Below, you’ll find several sections on software tools that can help you create professional, polished reports, including those with code blocks. However, if you’re comfortable using regular Excel, feel free to continue with that.</p>
-<section id="rstudio" class="level3 page-columns page-full" data-number="2.1">
-<h3 data-number="2.1" class="anchored" data-anchor-id="rstudio"><span class="header-section-number">2.1</span> Rstudio</h3>
-<p><em>For those with experience having complete data1001 or data2x02, you may skip this section.</em></p>
-<p>RStudio is a software primarily designed for academic data exploration and statistics using the R programming language. It also includes features like Quarto and an easy way to knit R Markdown (.rmd) and Quarto (.qmd) files.</p>
-<p>to get started you will want to install <a href="https://posit.co/download/rstudio-desktop/"> rstudio</a>.</p>
-
-<div class="no-row-height column-margin column-container"><div class="">
-<p>To run reticulate (the r extension that enables python) you will need to seperately install python <a href="https://www.python.org/downloads/"> here</a>.</p>
-</div></div><p>Once you get rstudio working you can use one of the many existing templates in a rmd or qmd file, or use a yaml header at the top of your document. Then in the application you can run ‘knit’ to produce a pdf or html document.</p>
-<pre class="{yaml}"><code>---
-title: "Sample Quarto Document"
-author: "Your Name"
-date: "`r Sys.Date()`"
-format: 
-  html: 
-    toc: true
-    toc-depth: 2
-    code-fold: true
-  pdf: 
-    keep-tex: true
-    number-sections: true
-abstract: |
-  This is a sample Quarto document. 
-  It demonstrates the use of YAML metadata for customization.
-params:
-  example_param: "default_value"
-editor: visual
----</code></pre>
-<p>If you are working with RStudio there are many templates available for your use. One such can be found in the footer (rticles).</p>
+<section id="prior-expectations" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="prior-expectations"><span class="header-section-number">2</span> Prior Expectations</h2>
+<p>Entering this challenge, there is an expectation that you will have a foundation of coding expereience (hopefully in R, or python or sql).While we understand that some people may not have this background, we have tried to make the challenges self elected, and the tools you use option. <em>Its important to note, that we care about your findings, not the methods used to find them</em>. This means that if youre really proficient with excel you can complete this challenge all in excel! Or if you want to learn python, this would be a great way to gain some epxerience coding in pandas (a python library). However, to make most advantage, it is best that you understand python. See our discord if you have any questions.</p>
+<p>Additionally, there is no assumption that you have a statistics or datasciene background. Just take the challenges at wherever you are, and see what you find. This could be a great way to brush up on some statistics, or learn a few practical things. While a throughough knowledge of stats will help you, it is not necessary.</p>
+<p>If your looking for some resources for datascience you can refer to the footer of this page.</p>
 </section>
-<section id="quarto" class="level3" data-number="2.2">
-<h3 data-number="2.2" class="anchored" data-anchor-id="quarto"><span class="header-section-number">2.2</span> Quarto</h3>
-<p>If you prefer using the CLI, you can use Quarto directly from the command line. Creating a Quarto file is as simple as adding a header like the one above, and then running quarto render file.qmd in the command line (assuming Quarto is installed).</p>
+<section id="challenges" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="challenges"><span class="header-section-number">3</span> Challenges</h2>
+<p>Challenges will be released approximately every week. Each challenge description will contain all the necessary information you need to get started with your datascience journey. The first challenge is <a href="challenges/stars">right out now!</a></p>
+<p>Challenges difficulty is self tailored. Each challenge has 3 streams, <strong>easy</strong>, <strong>medium</strong> and <strong>hard</strong>, with additional leeway given to participants to opt for <strong>wildcard</strong>. Read through the descriptions and pick the one that resonantes most with you or you think you can do the most.</p>
+<section id="data-in-the-challenges" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="data-in-the-challenges"><span class="header-section-number">3.1</span> Data in the Challenges</h3>
+<p>Each challenge breif (<a href="/">found on the home page </a>) will contain all the information on where to find the data. Sometimes you will have to downlaod it from the internet, and other times you will have to use sql to acsess a database.</p>
+<p>The data is mostly ‘structured’ data, although there is one week on ‘unstructured’ data. Additionally, two weeks are on time series data, so you may really want to learn some timeseries modelling technique and really learn about it over two weeks.</p>
+</section>
+<section id="what-to-do-in-the-challenges" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="what-to-do-in-the-challenges"><span class="header-section-number">3.2</span> What to do in the Challenges</h3>
+<p>Each challenge will give a somewhat vague guide on what you should do. Once you have selected your challenge stream for this week, you can undertake some research and discover what kinds of ways you want to take the challenge, or get started on working if you allready know what kind of approach you’d like to take.</p>
+<p>If your stuck and needing more hints, leave a message on the discord server, or message me directly.</p>
+</section>
+<section id="what-to-do-once-ive-finished-the-challenge" class="level3" data-number="3.3">
+<h3 data-number="3.3" class="anchored" data-anchor-id="what-to-do-once-ive-finished-the-challenge"><span class="header-section-number">3.3</span> What to Do once Ive finished the challenge</h3>
+<p>Once you have completed your coding section or analysis, if you head back to the home page, you can use the <strong>quicklinks</strong> section to navigate to the submissions form. Submit your work there and await grading</p>
+<p>For more on submissions you can find a submissions guide <a href="/guide/submissions">here.</a></p>
+<p><a href="/challenge/stars">Your first challenge is out now!</a></p>
 </section>
 </section>
-<section id="a-few-more-things" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="a-few-more-things"><span class="header-section-number">3</span> A Few More Things</h2>
-<p>Considerations for Report Writing:</p>
-<p><em>What is the background of my reader?</em> You can assume that your readers are your peers—university students in data science or related fields.</p>
-<p><strong>Graphs!</strong> A picture is worth a thousand words, and graphs are an effective way to communicate ideas. Including graphs in Quarto and R Markdown (.rmd) files is particularly easy, as your output can be “knitted” directly into the report. Alternatively, including a graph as a screenshot is a great way to demonstrate your points.</p>
-<p><strong>Innovation</strong> While the questions provide a general direction for tackling the challenge or exploring the dataset, we encourage you to think creatively. If you believe there’s a more pressing question to explore, feel free to pursue it instead of sticking strictly to the suggested ones. Remember, these questions are simply prompts to inspire discussion and analysis of the dataset, summary, or model you’ve produced. Be innovative and try to stand out among your peers!</p>
-<p>General Report Guidelines: As always, standard report-writing principles apply. Discuss the limitations of your work and be transparent. Stick to a clear structure, but there’s no need for citations. Be concise—if you’re using language models for writing, ensure the content is direct and doesn’t waste the reader’s time. When submitting, take advantage of the “GitHub” section to include the code that produced your findings.</p>
-<p><strong>Good luck with your writing!</strong></p>
+<section id="points" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="points"><span class="header-section-number">4</span> Points</h2>
+<p>Points are awarded as a way to keep progress. You can find the guide on points <a href="/guide/points"> here</a>.</p>
+</section>
+<section id="bugs" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="bugs"><span class="header-section-number">5</span> Bugs</h2>
+<p>For better or for worse, this is a project administered and coded all by me. So im sure there are going to be a few hijinks along the way.</p>
+<p>If you notice a bug tell me direcetly and score <a href="guide/points">additional points!</a></p>
+<p>I have made the github code public in the footer of this page, but don’t look at it too hard because Im sure that your sickness will be positively correlated with time spent viewing the code.</p>
+</section>
+<section id="rules" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="rules"><span class="header-section-number">6</span> RULES!</h2>
+<p>There arent any major rules in this challenge but we expect that everyone will be respectful to one another and not plagarize. Using generative ai is fair game, but if you are going to use chatgpt don’t waste other peoples time and make the writing short, concise, relevant and specific. No citation or anything is expected either.</p>
+<p>While there are no rules, you may want to still read these guides if you have questions. It ought to give you better idea of how to maximize your time in the challenge.</p>
+<p>Above all, have fun!</p>
+<ul>
+<li>Alexander</li>
+</ul>
 </section>
 
 </main>			<footer style="

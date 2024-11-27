@@ -15,9 +15,9 @@
 	div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 	ul.task-list{list-style: none;}
 	ul.task-list li input[type="checkbox"] {
-	width: 0.8em;
-	margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
-	vertical-align: middle;
+		width: 0.8em;
+		margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+		vertical-align: middle;
 	}
 
 
@@ -27,14 +27,14 @@
 	#logo-sub {letter-spacing: -0.05em; font-size: 1.5em;}
 	#logo-med {letter-spacing: -0.07em; font-size: 2em; width: 75vw; max-width: 75vw; justify-self: left;}
 	header {display: flex; flex-direction: row; justify-content: center;
-	max-width: 100vw; width: 100vw;
-	margin: none; z-index: 3; position: fixed;
-	padding: 1vh;
+		max-width: 100vw; width: 100vw;
+		margin: none; z-index: 3; position: fixed;
+		padding: 1vh;
 
 	}
 
 	#challenges-table {
-	width: 100%;}
+		width: 100%;}
 
 	</style>
 
@@ -53,6 +53,7 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 	<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet">
+	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
 </head>
 
@@ -63,8 +64,7 @@
 
 			<header>
 				<p id="logo-med" class="logo">Datacember</p>
-				<p id="users-name">Hello {{name}}</p>
-				<p id="point-tally"> {{points}} pts</p>
+				<p id="users-name">Hello {{name}} | {{points}} pts | </p>
 				<p><a href="/logout">Sign Out</a></p>
 			</header>
 
@@ -75,7 +75,6 @@
 					<canvas id="lorenzCanvas" width="1000%" height="491.2%" style="opacity; 0; position: absolute;"></canvas>
 					<div class="canvas-text" style="z-index: 1; position: absolute">
 						<p class="logo" id="logo-big">Datacember</p>
-						<p class="logo" id="logo-sub">Lorem ipsum dolor sit ament, consecutor adipiscing elit.</p>
 					</div>
 					<!--
 <p id="logo-big" style="font-family: 'Libre Baskerville', Serif; font-size: 5em; letter-spacing: -0.09em; z-index=1; position: absolute;">
@@ -99,15 +98,15 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ac felis arcu
 				const rho = 28; // Rayleigh number
 				const beta = 9 / 3; // Geometric factor
 				let dt = 0.003; 
-				
+
 				const a = Math.random();
 				const b = Math.random();
 				const c = Math.random();
 				const d = Math.random();
 
 				const points = [];
-				const total_points = 20000;
-				const clusters = Math.max(Math.floor(Math.abs(Math.random()*4.5)), 1);
+				const total_points = 15000;
+				const clusters = Math.max(Math.floor(Math.abs(Math.random()*3.5)), 1);
 
 				for (let c = 0; c < clusters; c++) {
 					const x0 = (Math.random() - 0.5) * 50;
@@ -115,8 +114,8 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ac felis arcu
 					const z0 = (Math.random() - 0.5) * 50;
 
 					const width = Math.min(Math.random()+0.7, 1)/(total_points/clusters); 
-					const gamma = Math.floor(Math.random() * 360);
-					const colwidth = Math.floor(115 / clusters);
+					const gamma = Math.floor(Math.random() * 250);
+					const colwidth = Math.floor(200 / clusters);
 					let l = (Math.random() + 1) * 55 / 2 + Math.floor(Math.random()) * 15;
 					l = 65; // attempt at making light adaptive hsl
 
@@ -178,9 +177,9 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ac felis arcu
 				// Animation loop
 				function animate() {
 					// if have fast fade, want to have slow waves
-					ctx.fillStyle = 'rgba(255, 255, 255, 0.007'; // Fading background
+					ctx.fillStyle = 'rgba(255, 255, 255, 0.004'; // Fading background
 					pass();
-					dt = Math.max(dt * 0.9995, 0.001);
+					dt = Math.max(dt * 0.9995, 0.00035);
 
 					ctx.fillRect(0, 0, width, height);
 
@@ -190,7 +189,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ac felis arcu
 						const dy = state.x * (rho - state.z) - state.y;
 						const dz = state.x * state.y - beta * state.z;
 
-						state.x += dx * dt;
+						state.x += dx * dt; // adding sin variance??
 						state.y += dy * dt;
 						state.z += dz * dt;
 
@@ -203,8 +202,8 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ac felis arcu
 
 						// note: struggling to get the random paramters to work
 						// applying the matrix transformation
-							
-						
+
+
 
 						// Draw the point
 						ctx.beginPath();
@@ -261,6 +260,30 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ac felis arcu
 					</div><div class="column" style="width:50%;">
 						<section id="quicklinks" class="level2">
 							<h2 class="anchored" data-anchor-id="quicklinks">Quicklinks</h2>
+							<table>
+								<tbody>
+									<tr>
+										<td><a href="/sumbissions">Submissions [WIP]</a></td>
+									</tr>
+
+									<tr>
+										<td><a href="/calendar">Calendar [WIP]</a></td>
+									</tr>
+
+									<tr>
+										<td><a href="/workbench">Workbench [WIP]</a></td>
+									</tr>
+
+									<tr>
+										<td><a href="/people">People [WIP CSS]</a></td>
+									</tr>
+
+									<tr>
+										<td><a href="https://discord.gg/9yBFu9GHgU" target="_blank" rel="noopener noreferrer">Discord</a></td>
+									</tr>
+
+								</tbody>
+							</table>
 						</section>
 					</div>
 				</div>
@@ -280,8 +303,22 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ac felis arcu
 										<td><b>Guide</b></td>	</tr>
 								</thead>	
 								<tbody>
+
+									<tr>
+										<td><a href="/guide/welcome">Welcome to Datacember!</a></td>
+									</tr>
 									<tr>
 										<td><a href="/guide/reports">Why Reports?</a></td>
+									</tr>
+
+									<tr>
+										<td><a href="/guide/submissions">Submissions</a></td>
+									</tr>
+									<tr>
+										<td><a href="/guide/points">How Points Work</a></td>
+									</tr>
+									<tr>
+										<td><a href="/guide/sql">Running Sql</a></td>
 									</tr>
 								</tbody>
 							</table>
@@ -291,6 +328,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ac felis arcu
 				</div>
 
 			</main>
+
 			<footer style="
 background-color: rgb(33, 33, 33);
 width: 100vw;
@@ -304,10 +342,10 @@ justify-content: space-evenly;
 position: relative; /* Positioning context for any additional tweaks */
 left: 50%; /* Move the footer to the middle */
 transform: translateX(-50%);
-				">
+">
 
 				<div class="col">
-					<div class='logo' style="letter-spacing: -0.07em; font-size: 2em;">
+					<div class='logo' style="letter-spacing: -0.07em; font-size: 2em; font-family: 'Libre Baskerville', serif;">
 						Datacember	
 					</div>
 					<br>

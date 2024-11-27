@@ -1,0 +1,78 @@
+
+---
+title: "How Points Work"
+editor: visual
+format: 
+  html:
+    toc: true
+    number-sections: true
+---
+
+Points are the challenge's internal currency, designed to:
+
+- Track your progress.
+
+- Encourage creativity and effort.
+
+- Reward participation in various activities.
+
+They’re not just about competing but also about celebrating your growth throughout the challenge. Even if you don’t have the highest score, collecting points can open opportunities for recognition, blog features and bragging rights.
+
+You can view your points in the top right corner of the header.
+
+Keep in mind, points are awarded scarcely, so don't be discouraged.
+
+## How to Win Points
+
+Points are meant to represent participation in the challenge, and can be won in a few ways. 
+
+### Challenge Level
+
+The main way to earn points is by completing the weekly challenges. Challenges are split into three tiers based on difficulty:
+
+Easy Challenge: **1 point**
+
+Medium Challenge: **2 points**
+
+Hard Challenge: **3 points**
+
+Points are awarded for earnestly* attempting challenges, so don't worry if you're unsure of the solution—participation matters!
+
+### Datascience Proficiency
+
+Beyond just solving a challenge, the quality of your work is graded and can earn you up to **4 points**:
+
+- How well you addressed discussion questions.
+
+- Your modeling or analytical techniques.
+
+- How your results compare to peers.
+
+- Effort and creativity in your submission.
+
+- High-quality submissions can boost your score, even for easier challenges.
+
+
+### Novelty
+
+In addition to this, there is a novelty criteria that makes up to **2 points**. As per the name sake, novel submissions will be appreciated, and rewarded with additional points.
+
+### Featured
+
+Starting week 1, a blog will be released, where the best submission will be showcased. All submissions featured within the blog will win a bounty of **6 points** devided among the showcased submissions.
+
+### Bug Bounty
+
+Find a substanticial bug within the website or security vunerability and win **1 point or 2 points** depending on the severity.
+
+
+## A Few Final Notes
+
+Due to my poor web design practices points are only updated with your session. 
+This means that you may not see your points increase immediately upon completing a challenge or being scored, because the client side session must update.
+
+By default, the client side session expired every 3 days, but you can manually trigger a session reset by logging out and logging back in.
+
+TL;DR, *you may have to wait up to 3 days to see your points increase*
+
+This points system does not have a super large impact, and is largely a measure of progress. In the spirit of the challenge, learning and participation is more important. Additionally, there are not official prizes as of yet for the victors (which may change throught the challenge). Points grading is largely discresionary and highly opinionated, so don't take it too seriously, and focus on having fun in the challenge.

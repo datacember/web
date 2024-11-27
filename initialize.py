@@ -70,7 +70,8 @@ if not os.path.exists('content.db') or all_tags:
             name TEXT NOT NULL,
             password TEXT NOT NULL,
             github TEXT NOT NULL,
-            signup TEXT NOT NULL
+            signup TEXT NOT NULL,
+            points INTEGER DEFAULT 0
         )
         ''')
 
@@ -144,11 +145,11 @@ if not os.path.exists('content.db') or all_tags:
             user TEXT,
             user_query TEXT,
             time REAL,
+
             runtime TEXT,
             row_length INTEGER
         )
         ''')
-
 
 if '-a' in sys.argv or all_tags:
     with sqlite3.connect('content.db') as conn:

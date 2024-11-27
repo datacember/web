@@ -29,6 +29,8 @@ The aim here is to see if we can predict a star’s type just based on these phy
 
 The type column indicates the type of star you are dealing with. 
 
+**You can install the data <a href="https://www.github.com/datacemebr/stars">here</a>.**
+
 ## Fun Facts about Stars
 
 1. **Stars Can "Sing"**: Stars can actually vibrate in ways that resemble sound waves, a field of study known as asteroseismology. These vibrations help astronomers learn about a star's internal structure.
@@ -37,17 +39,25 @@ The type column indicates the type of star you are dealing with.
 
 3. **The Sun is Average, But Essential**: Despite being a modestly sized, G-type main-sequence star, the Sun's stable energy output makes it perfect for sustaining life on Earth.
 
-## Brief
+## Your Task
 
+For your first task, we encourage you to select one of the options below. They range from simple to more advanced. You can read about what points are, and how they are calculated <a href='guides/points'> here</a>.
+
+All these submissions require a report. You can refer to the report writing guide <a href="/guides/report">here. </a>
+
+### Simple: Star Charectaristics Report 
 **Challenge Option**: Build a model that accurately predicts star type based on its characteristics, and write a concise report detailing your approach and findings.
 
+###
 **Complex**: Try produce a model that predicts star type based on a stars other features and write up a short rmd / qmd report on it.
 
+###
 **Simple**: If your stuck and looking for something simpler, try write up report on the types of charectaristics exhibited by each star type.
+
 
 ## Need a Hint?
 
-If youre using R Studio, you can filter a dataframe like this.
+If youre new to coding, you can filter a dataframe (csv object) using R Studio like this.
 ```{r data_loading_r, eval=FALSE, message=FALSE}
 library(dplyr)
 
@@ -56,18 +66,9 @@ data = read.csv('stars.csv')
 filtered_for_type_1 = data |> filter(type = 1)
 ```
 
-In Python you can do some filtering on the fly when you traverse a dataframe
-```{python data_loading_py, eval=FALSE, echo=TRUE}
-temperature_means = dict() # initialize some empty data store
-first_row = True
 
-for line in open('stars.csv'):
-  line = line.rstrip('\n').split(',')
-  if type:=line[7]==5:
-    # do something
-```
+In Python you can use the Pandas library for simmilar operations.
 
-Or use the pandas library
 ```{python data_loading_py_2, eval=FALSE, echo=TRUE}
 import pandas as pd
 
@@ -76,4 +77,6 @@ stars = stars[stars['Type']==2]
 ```
 
 For a no-code option you can use Excel.
+
+
 

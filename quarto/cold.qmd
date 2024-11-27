@@ -68,7 +68,7 @@ This challenges data is acsessible through SQL. See below for a guide on how to 
 Generally, each of the stations has its own table, `casey`, `davis`, `mawson`, and `macquarrie_island` respectively. Each table in the database follows the same format:
 
 | Column Name | Full Name              | Description                               | Database Type | Units             |
-|-------------|-------------|---------------------|-------------|-------------|
+|--------------|--------------|-----------------|--------------|--------------|
 | Day         | Day                    | The day of the month                      | INTEGER       | Days              |
 | Month       | Month                  | The month of the year                     | INTEGER       | Months            |
 | Year        | Year                   | The year                                  | INTEGER       | Years             |
@@ -104,9 +104,10 @@ use_virtualenv("../ENV", required = TRUE)
 
 py_install("git+https://github.com/datacember/datacember.git@main")
 datacember <- import("datacember")
+inspect = import("inspect")
 ```
 
-For this task it is highly reccomended that you use python. Use the following guide as a quickstart on how to get the data for this challenge.
+For this task it is highly recommended that you use python. Use the following guide as a quick start on how to get the data for this challenge.
 
 > **Note**: If you are unfamiliar with python, and want to just use basic sql, you can use the <a href="/workspace"> web-client for running your sql queries</a>.
 
@@ -118,15 +119,20 @@ Now lets import the dataset connection to the antartica database.
 
 ```{python pythoimport}
 from datacember import antartica
+import inspect
 ```
 
 Due to the way that the `datacember_connection` object works, its easiest to use the class in a context manager. Below we will do this with an example running a sql query to select 2 records from the Mawson station.
 
 ```{python pythondb}
-with antartica(username="default", password="demo") as db:
+# debugging
+print(inspect.signature(antartica.__init__))
+
+with antartica("wingfooted", "password", "http://192.168.1.109:8997") as db:
   content = db("SELECT * FROM mawson LIMIT 2;")
   for row in content:
     print(row)
+    
 ```
 
 Voila!
@@ -139,7 +145,7 @@ However some of your errors may be explained by:
 
 -   Rate limiting. You will be limited after 20 requests per minute.
 
--   Invalid SQL. Ideally an error should be raised when your sql is invalid. All sql on the back-end is run with sqlite3, so all the syntax must conform with the conventiosn of sqlite3.
+-   Invalid SQL. Ideally an error should be raised when your sql is invalid. All sql on the back-end is run with sqlite3, so all the syntax must conform with the conventions of sqlite3.
 
 If you have any suggestions or want to work with me on the datacember class, or have ideas on how to improve it message me and we can implement some ideas.
 
@@ -147,6 +153,6 @@ If you have any suggestions or want to work with me on the datacember class, or 
 
 If you are new to SQL you can find a <a href="/guide/sql"> brief guide here</a>
 
-You can find additional examples and documentation on the <a href="/guide/datacember-module"> datacember module here </a>
+You can find additional examples and documentation on the <a href="/guides/datacember-module"> datacember module here </a>
 
-See our <a href="/guide/report"> report writing guide here </a>
+See our <a href="/guides/report"> report writing guide here </a>
