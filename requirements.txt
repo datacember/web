@@ -84,7 +84,6 @@ cffi==1.17.1
 charset-normalizer==3.4.0
 click==8.1.7
 comm==0.2.2
-datacember @ git+https://github.com/datacember/datacember.git@31b842c26e722aef7ddb36f78aafb65b815a5ab9
 debugpy==1.8.8
 decorator==5.1.1
 defusedxml==0.7.1
@@ -322,7 +321,6 @@ cffi==1.17.1
 charset-normalizer==3.4.0
 click==8.1.7
 comm==0.2.2
-datacember @ git+https://github.com/datacember/datacember.git@d9e214f594b416da4596b6f5638c78cc7c814791
 debugpy==1.8.8
 decorator==5.1.1
 defusedxml==0.7.1
@@ -422,3 +420,5 @@ websocket-client==1.8.0
 Werkzeug==3.0.4
 widgetsnbextension==4.0.13
 wrapt==1.16.0
+certifi==2024.8.30
+wheel @ file:///opt/homebrew/Cellar/python%403.13/3.13.0_1/libexec/wheel-0.44.0-py3-none-any.whl#sha256=f49b82715dce6365f75eddcb0a9bb47d0d46feaf14bbc739dfcbd677b7073f5b
