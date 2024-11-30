@@ -1,16 +1,21 @@
 import functions
+import pytz
 import random
 import time
 import sqlite3
-import datetime
+from datetime import datetime 
 from flask import Flask, session, redirect, url_for, request, render_template, jsonify
 import yaml
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from mover import upkeep, is_kept
-import boto3
 
-
+def day(local_timezone: str = "Europe/Dublin", target_timezone: str = "Australia/Sydney") -> int:
+    local_tz = pytz.timezone(local_timezone)
+    target_tz = pytz.timezone(target_timezone)
+    local_time = datetime.now(local_tz)
+    target_time = local_time.astimezone(target_tz)
+    return target_time.day
 
 # TODO MAKE LAMBDA FUNCTIONS
 escape = lambda cstr: cstr.replace('/', '-')
@@ -37,7 +42,7 @@ with open('config.yaml', 'r') as yaml_file:
 
 
 app = Flask(__name__)
-app.secret_key = config['secret_key'] + "" if (datetime.datetime.now().day % 3 != 0) else str(datetime.datetime.now().day)
+app.secret_key = config['secret_key'] + "" if (day() % 3 != 0) else str(day())
 # wierd hack to clear the session every n days (6)
  
 limiter = Limiter(get_remote_address,
@@ -45,11 +50,6 @@ limiter = Limiter(get_remote_address,
                   default_limits=["999 per hour"]
 )
 
-s3 = boto3.client(
-    's3',
-    aws_access_key_id=config['aws_acsess_key'],
-    aws_secret_access_key=config['aws_password']
-)
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
@@ -98,9 +98,8 @@ def index():
     # custom processing in Error messaging
     error_msg = error_msg.replace('<NAME>', session['name'])
     error_msg = error_msg.replace('<USERNAME>', session['username'])
-    error_msg = error_msg.replace('<TODAY>', str(datetime.date.today()))
 
-    names, link, status_open = functions.get_challenges(datetime.datetime.today())
+    names, link, status_open = functions.get_challenges(datetime.now(pytz.timezone('Europe/Dublin')).astimezone(pytz.timezone('Australia/Sydney')).date())
     # names, link, status_open = functions.get_challenges(datetime.date(2024, 12, 28)) # Debugging Date
     return render_template('main.html',
                            days=functions.days_until_end_of_december(),
@@ -111,7 +110,7 @@ def index():
                            status_open=status_open,
                            loop_length=len(status_open),
                            dateschema=get_date_schema(),
-                           today=datetime.date.today().day,
+                           today=day(),
                            welcome_message=welcome_message,
                            display_error_msg=display_error_msg,
                            error_msg=error_msg
@@ -159,8 +158,7 @@ def signup():
 
 @app.route("/advent")
 def advent_dateless():
-    today = datetime.date.today().day
-
+    today = day()
     return redirect(url_for('advent', date=today))
 
 @app.route("/advent/<date>", methods=['GET', 'POST'])
@@ -186,7 +184,7 @@ def advent(date):
     except:
             return redirect(url_for('index'))
 
-    if date > datetime.date.today().day:
+    if date > day():
         return redirect(url_for('early'))
     
     current_challenge, current_title, current_due = functions.last_challenge(date)
@@ -257,7 +255,7 @@ def challenge(dynamic):
         else:
             return False
 
-    if not functions.challenge_released(dynamic, datetime.date.today().day):
+    if not functions.challenge_released(dynamic, day()):
         return redirect(url_for('early'))
 
     if not is_kept(dynamic):
@@ -312,7 +310,7 @@ def guide(dynamic):
 
     if check_valid_guide(dynamic):
         if dynamic == "advent":
-            return redirect(url_for('advent', date=datetime.date.today().day))
+            return redirect(url_for('advent', date=day()))
         return render_template(f'{dynamic}.html', name=session['name'], points=session['points'])
 
     else:
@@ -365,7 +363,7 @@ def sql():
                 length_output = len(output)
                 end = time.time()
                 user = functions.get_user_from_token(token)
-                functions.create_query(sql, str(datetime.datetime.today()),
+                functions.create_query(sql, str(datetime.now(pytz.timezone('Europe/Dublin')).astimezone(pytz.timezone('Australia/Sydney')).date()),
                                        end-start, length_output, token, user)
                 print(sql, header, output, end-start, sep="\n")
                 return jsonify({'content': output, 'header': header, 'runtime': f"{end - start:.4f}", 'rows': length_output}), 200
@@ -419,7 +417,7 @@ def early():
         return redirect(url_for('login'))
     return render_template('return.html',
                            name=session['name'],
-                           today=datetime.date.today().day,
+                           today=day(),
                            points=session['points'],
                            )
 
