@@ -25,39 +25,6 @@ if '-d' in sys.argv or all_tags:
     finally:
         pass
 
-    try:
-        os.remove('forum.db')
-    finally:
-        pass
-
-if not os.path.exists('forum.db') or all_tags:
-    with sqlite3.connect('forum.db') as conn:
-        cursor = conn.cursor()
-
-        cursor.execute('''
-        CREATE TABLE posts (
-            pid INTEGER PRIMARY KEY,
-            author TEXT,
-            date TEXT,
-            tags TEXT,
-            content TEXT,
-            likes TEXT,
-            reply_count INTEGER
-        )
-        ''')
-        cursor.execute('''
-        CREATE TABLE replies (
-            rid INTEGER PRIMARY KEY,
-            parent_id INTEGER NOT NULL,
-            parent_type INTEGER NOT NULL,
-            author TEXT,
-            date TEXT,
-            content TEXT,
-            likes TEXT,
-            reply_count TEXT
-        )
-        ''')
-
 if not os.path.exists('content.db') or all_tags:
     with sqlite3.connect('content.db') as conn:
         cursor = conn.cursor()
@@ -77,10 +44,31 @@ if not os.path.exists('content.db') or all_tags:
 
         # users table
         cursor.execute('''
-        CREATE TABLE access_codes (
+        CREATE TABLE adventcontent (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            access TEXT,
-            uses INTEGER DEFAULT 5
+            content_text TEXT,
+            content_table TEXT,
+            content_image TEXT
+        )
+        ''')
+
+        # users table
+        cursor.execute('''
+        CREATE TABLE adventresponses (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT,
+            response TEXT,
+            date TEXT
+        )
+        ''')
+
+
+        # users table
+        cursor.execute('''
+        CREATE TABLE messages (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            display INTEGER,
+            error TEXT
         )
         ''')
 
@@ -90,20 +78,30 @@ if not os.path.exists('content.db') or all_tags:
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
             html TEXT NOT NULL,
-            release TEXT NOT NULL
+            release TEXT NOT NULL,
+            deadline TEXT NOT NULL
+        )
+        ''')
+
+        # challenges table
+        cursor.execute('''
+        CREATE TABLE adventreadmore (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            content TEXT
         )
         ''')
 
         query = '''
-        INSERT INTO challenges (name, html, release)
-        VALUES (?, ?, ?)
+        INSERT INTO challenges (name, html, release, deadline)
+        VALUES (?, ?, ?, ?)
         '''
 
         challenges = (
-                ("Stars", "stars", "2024-12-1"),
-                ("Weeding out the Noise", "farming", "2024-12-5"),
-                ("Froth Flotation", "mining", "2024-12-9"),
-                ("SQLippery when icy!", "cold", "2024-12-16")
+                ("Stars", "stars", "2024-12-1", "2024-12-5"),
+                ("Froth Flotation", "mining", "2024-12-6", "2024-12-12"),
+                ("SQLippery When Icy!", "cold", "2024-12-12", "2024-12-16"),
+                ("Silicon Says", "chess", "2024-12-17", "2024-12-23"),
+                ("Word on the Street", "news", "2024-12-26", "2024-12-31"),
         )
 
         for challenge in challenges:
@@ -157,9 +155,9 @@ if '-a' in sys.argv or all_tags:
         cursor.execute('''
         INSERT INTO users (username, name, password, github, signup)
         VALUES(?, ?, ?, ?, ?)
-        ''', ('wingfooted', 'Alexander',
-              hashlib.sha256('password'.encode()).hexdigest(),
-              'https://github.com/wingfooted',
+        ''', ('guest', 'Guest',
+              hashlib.sha256('datacemberguest1'.encode()).hexdigest(),
+              'samplegithub',
               str(datetime.date.today()))
         )
         cursor.execute('''
@@ -174,15 +172,6 @@ if '-a' in sys.argv or all_tags:
 if '-c' in sys.argv or all_tags:
     with sqlite3.connect('content.db') as conn:
         cursor = conn.cursor()
-
-        cursor.execute('''
-        INSERT INTO users (username, name, password, github, signup)
-        VALUES(?, ?, ?, ?, ?)
-        ''', ('wingfooted', 'Alexander',
-              hashlib.sha256('password'.encode()).hexdigest(),
-              'https://github.com/wingfooted',
-              str(datetime.date.today()))
-        )
 
 if '-ice' in sys.argv or all_tags:
     if not os.path.exists('antarctica.db'):

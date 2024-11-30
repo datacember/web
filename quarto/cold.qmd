@@ -10,7 +10,7 @@ format:
 
 ## Antartica!
 
-::: {.columns
+::: {.columns}
 ::: {.column width="100%"}
 ![🐧](images/penguin.png "View of Antartica")
 :::

@@ -1,0 +1,18 @@
+---
+title: "Too Early!"
+editor: visual
+format: 
+  html:
+    toc: true
+    number-sections: true
+---
+
+The resouce you have requested is not available yet. 
+
+<REQUESTED>
+
+Come back at a later date.
+
+<a href="/"> Return Home </a>
+
+![](images/cat.png) 

@@ -1,0 +1,16 @@
+<div class='DYNAMIC-CONTENT-GLANCE'>
+
+	{% if current_challenge %}
+	<p>
+		Your next challenge is out; 
+		<a href="/challenge/{{current_challenge}}">{{current_title}}</a> is due <b>{{current_due}}</b>
+	</p>
+	{% endif %}
+
+	{% if html_today %}
+	<p>
+		Remember, 
+		<a href="/challenge/{{html_today}}">{{title_today}} </a>is due <b>today!</b>
+	</p>
+	{% endif %}
+

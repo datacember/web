@@ -1,0 +1,23 @@
+<div class="DYNAMIC-CONTENT-PROBLEM">
+
+{% if question %}
+    <p><strong>Question:</strong> {{ question }}</p>
+{% endif %}
+
+{% if table %}
+    <p><strong>Table:</strong> {{ table }}</p>
+{% endif %}
+
+{% if image %}
+    <p><strong>Image:</strong> <img src="{{ image }}" alt="Image" style="max-width: 100%; height: auto;"></p>
+{% endif %}
+
+{% if response %}
+    <p><strong>Your Response:</strong> {{ response }}</p>
+{% else %}
+    <form method="post">
+        <label for="response">Your Response:</label>
+        <input type="text" name="response" placeholder="Type your response here" style="width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px; background-color: #f9f9f9;">
+        <button type="submit" style="padding: 10px 20px; margin-top: 10px; background-color: #007bff; color: white; border: none; border-radius: 4px;">Submit</button>
+    </form>
+{% endif %}

@@ -1,0 +1,24 @@
+<div style="min-height: 75vh;">
+	
+<table style="width:100%;">
+	<thead>
+	<tr>
+		<th>Username</th>
+			<th>Points</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for row in content %}
+			<tr>
+			<td>
+				{{row[0]}}
+			</td>
+			<td>
+				{{row[1]}}
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+</div>

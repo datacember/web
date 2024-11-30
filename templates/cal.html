@@ -1,0 +1,83 @@
+<!DOCTYPE>
+<html>
+
+	<head>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+		<style>
+		body {
+			display: flex;
+			justify-content: center;
+
+			align-items: center;
+		}
+		#today-cal {
+			background: red;
+		}
+		/* unique html */
+
+		</style>
+
+	</head>
+
+	<body>
+
+		<div class="calendar-wrapper">
+
+			<a href="/advent/{{daycount}}"><p id="advent-title">🎁Go to Advent Calendar</p></a>
+			{{today}}
+			<table id="calendar">
+				<thead>
+					<tr>
+						<th>Mon</th>
+						<th>Tue</th>
+						<th>Wed</th>
+						<th>Thu</th>
+						<th>Fri</th>
+						<th>Sat</th>
+						<th>Sun</th>	
+					</tr>
+				</thead>
+				<tbody>
+					{% for row in range(6) %}
+					<tr>
+						{% for col in range(1, 8) %}						<td>
+							{% if ( col + row * 7 - 6 > 0 and col + row * 7 - 6 < 32 ) or col + row * 7 - 6 == today %}
+						{% if col + row * 7 - 6 == today %}	
+								<div id="today-cal">
+						{% endif %}
+							<a href='/advent/{{col + row * 7 -6}}'>
+							<div class="dates-cal">
+							{{col + row * 7 -6}}
+							</div>
+							<div class="events-stack-cal">
+							{% if dateschema[col + row * 7-6].challenge %}🏆{% endif %}
+							{% if dateschema[col + row * 7-6].due %}🔔{% endif %}
+							{% if dateschema[col + row * 7-6].due %}📝{% endif %}
+							</div>
+							</a>
+						{% if col + row * 7 - 6 == today %}	
+								</div>
+						{% endif %}
+							{% endif %}
+						</td>
+						{% endfor %}
+					</tr>
+					{% endfor %}
+				</tbody>			
+
+		</div>
+
+
+	</body>
+	<footer>
+
+		<table border="1" cellspacing="0" cellpadding="5"><thead><tr><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr></thead><tbody><tr><td>12</td><td>34</td><td>23</td><td>45</td><td>56</td><td>67</td><td>78</td></tr><tr><td>21</td><td>43</td><td>32</td><td>54</td><td>65</td><td>76</td><td>87</td></tr><tr><td>11</td><td>22</td><td>33</td><td>44</td><td>55</td><td>66</td><td>77</td></tr><tr><td>10</td><td>20</td><td>30</td><td>40</td><td>50</td><td>60</td><td>70</td></tr></tbody></table>
+	</footer>
+
+</html>

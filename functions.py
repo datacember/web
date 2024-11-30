@@ -255,3 +255,192 @@ def startup_render():
                 print(f"Rendered {filename} successfully.")
             except subprocess.CalledProcessError:
                 print(f"Failed to render {filename}.")
+
+def get_error_messages():
+    with sqlite3.connect('content.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT display, error FROM messages ORDER BY id DESC LIMIT 1")
+        output = cursor.fetchone()
+
+        if output:
+            return True if output[0] == 1 else False, output[1]
+        return False, "No display Message"
+
+def create_error_msg(display: int, msg):
+    insert = 0
+    if str(display) == '1':
+        insert = 1
+
+    with sqlite3.connect('content.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO messages (display, error) VALUES (?, ?)", (insert, msg))
+    return True
+
+
+def challenges_today(date: int) -> bool:
+    with sqlite3.connect('content.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM challenges WHERE release = ?", (f"2024-12-{date}",))
+        output = cursor.fetchone()
+    print(output)
+    return True if output else False
+
+def due_today(date: int) -> bool:
+    with sqlite3.connect('content.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM challenges WHERE deadline = ?", (f"2024-12-{date}",))
+        output = cursor.fetchone()
+    print(output)
+    return True if output else False
+
+def next_due_date(date) -> int:
+    with sqlite3.connect('content.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT html, name, deadline FROM challenges")
+        challenges = cursor.fetchall() # list of all challenges
+
+    # date <- challenge
+    challenge_table = {}
+    for (challenge, title, deadline) in challenges:
+        table_date = int(deadline.split('-')[2])
+        challenge_table[table_date-date] = (challenge, deadline, title)
+    
+    items = [d for d in
+        challenge_table.keys() if d >=0]
+    if not items:
+        return None, None, None, None
+    min_dist = min(
+        items
+    )
+    return challenge_table[min_dist][0], challenge_table[min_dist][1], int(challenge_table[min_dist][1].split("-")[2]), challenge_table[min_dist][2]
+                
+
+def next_challenge(date) -> int:
+    with sqlite3.connect('content.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT name, deadline FROM challenges")
+        challenges = cursor.fetchall() # list of all challenges
+
+        # date <- challenge
+        challenge_table = {}
+        for (challenge, deadline) in challenges:
+            table_date = int(deadline.split('-')[2])
+            challenge_table[table_date-date] = (challenge, deadline)
+        
+        items = [d for d in
+            challenge_table.keys() if d >0]
+        if not items:
+            return None, None
+        min_dist = min(
+            items
+        )
+        return challenge_table[min_dist][0], challenge_table[min_dist][1]
+
+        
+                
+    return False
+
+# TODO maybe realias this to current challenge
+def last_challenge(date) -> str:
+    with sqlite3.connect('content.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT html, deadline, name FROM challenges")
+        challenges = cursor.fetchall() # list of all challenges
+
+        # date <- challenge
+        challenge_table = {}
+        for (challenge, deadline, name) in challenges:
+            table_date = int(deadline.split('-')[2])
+            challenge_table[date-table_date] = (challenge, deadline, name)
+       
+
+        items = [d for d in
+            challenge_table.keys() if d <0]
+
+        if not items:
+            return False, False, False
+
+        min_dist = max(
+            items
+        )
+        return challenge_table[min_dist][0], challenge_table[min_dist][2], challenge_table[min_dist][1]
+
+
+        
+                
+    return False
+
+def challenge_released(challenge: str, date: int) -> bool:
+    """
+        Date is a day integer valued number 
+    """
+    print(challenge)
+    print(date)
+    with sqlite3.connect('content.db') as conn:
+        cursor = conn.cursor()
+        while date>0:
+            cursor.execute('SELECT * FROM challenges WHERE html = ? AND release  = ?', 
+                           (challenge, '2024-12-'+str(date)))
+            output = cursor.fetchone()
+            if output != None:
+                return True
+            date = date -1
+
+    return False
+
+
+def get_question(date: int) -> str:
+    """Return a sample question based on the integer date."""
+    return "How can you know if a data-science model is making good predictions?"
+
+def get_table(date: int):
+    """Return a matrix format, array of arrays, or False if not available."""
+    return False  # Replace with actual logic if needed
+
+def get_image(date: int):
+    """Return an image or False if not available."""
+    return False  # Replace with actual logic if needed
+
+def get_leaderboard() -> str:
+    with sqlite3.connect('content.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT username, points FROM users ORDER BY points LIMIT 5")
+        output = cursor.fetchall()
+    return output
+
+def get_response(username, date: int) -> str:
+    with sqlite3.connect('content.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT response FROM adventresponses WHERE username=? AND date=?", (username, str(date)))
+        output = cursor.fetchone()
+    return output[0] if output else False
+
+def advent_response(username, response, date):
+    with sqlite3.connect('content.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+            INSERT INTO adventresponses (username, response, date)
+            VALUES (?, ?, ?)""",
+                       (
+                       username,
+                       response,
+                       date)
+                       )
+
+
+def get_challenges_due_today(date):
+    with sqlite3.connect('content.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT name, html FROM challenges WHERE deadline = ?", (f'2024-12-{date}',))
+        output = cursor.fetchone()
+    if not output:
+        return False, False 
+    
+    return output[0], output[1]
+
+if __name__ == '__main__':
+    print(get_challenges_due_today(1))
+    print(last_challenge(1))
+    print(get_challenges_due_today(5))
+    print(last_challenge(5))
+

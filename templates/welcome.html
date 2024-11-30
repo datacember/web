@@ -35,13 +35,18 @@ ul.task-list li input[type="checkbox"] {
 <link href="/static/welcome_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
 
 <body>
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
 <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-  <nav id="TOC" role="doc-toc" class="toc-active">
+  <nav style="padding-top: 3vh;" id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
@@ -56,10 +61,31 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#points" id="toc-points" class="nav-link" data-scroll-target="#points"><span class="header-section-number">4</span> Points</a></li>
   <li><a href="#bugs" id="toc-bugs" class="nav-link" data-scroll-target="#bugs"><span class="header-section-number">5</span> Bugs</a></li>
   <li><a href="#rules" id="toc-rules" class="nav-link" data-scroll-target="#rules"><span class="header-section-number">6</span> RULES!</a></li>
+  <li><a href="#final-words" id="toc-final-words" class="nav-link" data-scroll-target="#final-words"><span class="header-section-number">7</span> Final Words!</a></li>
   </ul>
 </nav>
 </div>
-<main class="content" id="quarto-document-content">
+<header 
+style="display: flex; flex-direction: row; justify-content: center;
+		max-width: 100vw; width: 100vw;
+		margin: none; z-index: 3; position: fixed;
+		padding: 1vh;"
+>
+	<p id="logo-med"
+style="letter-spacing: -0.07em; font-size: 2em; width: 75vw; max-width: 75vw; justify-self: left; font-family: 'Libre Baskerville', Serif;"
+	>
+		<a href="/" style="text-decoration: none; color: black;">
+		Datacember
+		</a>
+	</p>
+	<p id="users-name"
+	style="font-family: 'Source Sans 3', serif;"
+	>Hello {{name}} | {{points}} pts |&nbsp;</p>
+	<p
+	style="font-family: 'Source Sans 3', serif;"
+	><a href="/logout">Sign Out</a></p>
+</header>
+<main style="padding-top: 6vh;"  class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -130,6 +156,10 @@ ul.task-list li input[type="checkbox"] {
 <h2 data-number="6" class="anchored" data-anchor-id="rules"><span class="header-section-number">6</span> RULES!</h2>
 <p>There arent any major rules in this challenge but we expect that everyone will be respectful to one another and not plagarize. Using generative ai is fair game, but if you are going to use chatgpt don’t waste other peoples time and make the writing short, concise, relevant and specific. No citation or anything is expected either.</p>
 <p>While there are no rules, you may want to still read these guides if you have questions. It ought to give you better idea of how to maximize your time in the challenge.</p>
+</section>
+<section id="final-words" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="final-words"><span class="header-section-number">7</span> Final Words!</h2>
+<p>Make sure to join the discord. It will serve as the community for this challenge. And remember that you can find all the links you’d ever need on the home page.</p>
 <p>Above all, have fun!</p>
 <ul>
 <li>Alexander</li>
@@ -182,11 +212,9 @@ transform: translateX(-45%);
 				<div class="col" style="display:block; line-height: 1vh;">
 					<p class="footer-title" style="font-size: 1.25em; letter-spacing: -0.07; font-family: 'Libre Baskerville', serif;">Other</p>
 					<hr style="color: white;">
-					<p><a style="color: white; text-decoration: none; font-size:0.8em;" href="/guide/privacy">privacy</a></p>
-					<p><a style="color: white; text-decoration: none; font-size:0.8em;" href="/guide/privacy">privacy</a></p>
 					<p><a style="color: white; text-decoration: none; font-size:0.8em;" href="/guide/thanks">Thanks!</a></p>
 					<p style="font-size:0.8em;">contact:</p>
-					<p style="font-size:0.8em;">alexanderjwells04@gmail.com</p>
+					<p style="font-size:0.8em;">datacember@gmail.com</p>
 				</div>
 
 

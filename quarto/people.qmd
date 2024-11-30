@@ -1,0 +1,15 @@
+---
+editor: visual
+format: 
+  html:
+    toc: true
+    number-sections: true
+---
+
+## Leader Board
+
+See below the top 5 point scorers in the challenge!
+
+LEADERBOARDZZZZ
+
+Find more ways to win points <a href='/guide/points'> here. </a>

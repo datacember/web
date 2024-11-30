@@ -65,6 +65,10 @@ def upkeep(name) -> None:
         # rename all name.html links
         # for html file in file rename
         # rename then move
+        
+        # advent specific path
+
+
 
         with open(f'quarto/{name}.html', 'r', encoding='utf-8') as html:
             content = html.read()
@@ -72,9 +76,65 @@ def upkeep(name) -> None:
         with open('templates/footer.html' , 'r', encoding='utf-8') as footer_html:
             footer = footer_html.read()
 
+        with open('templates/header.html', 'r', encoding='utf-8') as header_html:
+            header = header_html.read()
+            
+        with open('templates/head.html', 'r', encoding='utf-8') as head_html:
+            head = head_html.read()
+
+        with open('templates/glance.html', 'r', encoding='utf-8') as glance_html:
+            glance = glance_html.read()
+
+        with open('templates/problem.html', 'r', encoding='utf-8') as problem_html:
+            problem = problem_html.read()
+
+        with open('templates/more.html', 'r', encoding='utf-8') as readmore_html:
+            readmore = readmore_html.read()
+
+        with open('templates/leader.html', 'r', encoding='utf-8') as leader_html:
+            leader = leader_html.read()
+
+        target = '<main class='
+
         content = content.replace('images/', '/static/images/')
         content = content.replace(f'{name}_files/', f'/static/{name}_files/')
+
+
+        # adding header & head
+
         content = content.replace("</main>", f"</main>{footer}")
+        content = content.replace(target, header+target) # header
+        content = content.replace('</head>', head+'</head>')
+
+        # TOC FORMATTING ERROR QUICKFIX
+
+        content = content.replace('id="TOC"', 'style="padding-top: 3vh;"'+' id="TOC"')
+
+        content = content.replace('<main', '<main style="padding-top: 6vh;" ')
+
+        # for cat one
+
+        content = content.replace('ZZZREQUESTEDZZZ', '{{requested}}')
+        content = content.replace('ZZZNAMEZZZ', '{{name}}')
+
+        content = content.replace('LEADERBOARDZZZZ', leader)
+
+        if name == 'advent':
+            content = content.replace('Datacember Advent Calendar', 'Datacember Advent Calendar {{today}}')
+
+
+            target = '<div class="DYNAMIC-CONTENT-GLANCE">' 
+            content = content.replace(target, glance)
+
+            target = '<div class="DYNAMIC-CONTENT-PROBLEM">' 
+            content = content.replace(target, problem)
+
+            target = '<div class="DYNAMIC-CONTENT-READMORE">' 
+            content = content.replace(target, readmore)
+
+            content = content.replace("Previous Day", "{{today-1}}")
+            content = content.replace("Next Day", "{{today + 1}}")
+
 
         with open(f'quarto/{name}.html', 'w', encoding='utf-8') as html:
             html.write(content)

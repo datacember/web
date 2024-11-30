@@ -14,15 +14,15 @@
 		<style>
 
 
-			.logo {font-family: 'Libre Baskerville', Serif;}
-	.canvas-text {text-align: center;}
-	#logo-big {letter-spacing: -0.08em; font-size: 7em;}
-	#logo-sub {letter-spacing: -0.05em; font-size: 1.5em;}
-	#logo-med {letter-spacing: -0.07em; font-size: 2em; width: 75vw; max-width: 75vw; justify-self: left;}
-	header {display: flex; flex-direction: row; justify-content: center;
-	max-width: 100vw; width: 100vw;
-	margin: none; z-index: 3; position: fixed;
-				padding: 1vh;}
+		.logo {font-family: 'Libre Baskerville', Serif;}
+		.canvas-text {text-align: center;}
+		#logo-big {letter-spacing: -0.08em; font-size: 7em;}
+		#logo-sub {letter-spacing: -0.05em; font-size: 1.5em;}
+		#logo-med {letter-spacing: -0.07em; font-size: 2em; width: 75vw; max-width: 75vw; justify-self: left;}
+		header {display: flex; flex-direction: row; justify-content: center;
+			max-width: 100vw; width: 100vw;
+			margin: none; z-index: 3; position: fixed;
+			padding: 0.5vh;}
 		/* Catppuccin Latte colors */
 		.CodeMirror {
 			background: #eff1f5; /* Base background */
@@ -38,7 +38,15 @@
 		/* Code editor styling */
 
 
-		#sql-output-1 {overflow: auto; max-width: 100vw;}
+		.sql-output {overflow: auto; max-width: 100vw; font-family:'Source Sans 3', 'Helvetica';}
+			.sql-output table {
+				border-collapse: separate;
+				border: 1px solid grey;
+				border-radius: 4px;
+			}
+			.sql-output td {background-color: #f2f5f7;}
+			.sql-output th {background-color: #d7d8d9;}
+			.sql-errors {font-family: 'Source Sans 3', 'Helvetica';}
 
 		/* Doc styling */
 		body {
@@ -46,7 +54,7 @@
 			padding: 0;
 			min-height: 100vh;
 		}
-			main {margin-left: 20vw; margin-right: 20vw; padding: 10vw;min-height:100vh;}
+			main {margin-left: 15vw; margin-right: 20vw; padding: 10vw;min-height:100vh;}
 		</style>
 		<script>
 
@@ -77,14 +85,13 @@
 				<div class="sql-errors" id="sql-errors-1">
 
 				</div>
-				<div class="sql-output" id="sql-output-1">
+				<div class="sql-output" id="sql-output-1" style="max-height: 90vh;">
 
 				</div>
 			</div>	
 
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.11/codemirror.min.js"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.11/mode/sql/sql.min.js"></script>
-
 
 
 			<script>
@@ -139,7 +146,7 @@ justify-content: space-evenly;
 				<p><a style="color: white; text-decoration: none; font-size:0.8em;" href="/guide/privacy">privacy</a></p>
 				<p><a style="color: white; text-decoration: none; font-size:0.8em;" href="/guide/thanks">Thanks!</a></p>
 				<p style="font-size:0.8em;">contact:</p>
-				<p style="font-size:0.8em;">alexanderjwells04@gmail.com</p>
+				<p style="font-size:0.8em;">datacember@gmail.com</p>
 			</div>
 		</footer>
 
@@ -177,8 +184,14 @@ justify-content: space-evenly;
 			.then( response => {
 				/* http error handling  */
 
-				if (!response.ok) {
-					throw new Error("HTTP error detected")
+				if (response.status == 418) {
+					throw new Error(`${response.json().error} bruuh`)
+				} else if (response.status == 429) {
+					throw new Error('Too many queries sent, Slow down')
+				} else if (!response.ok) {
+
+					throw new Error("Http Error caught")
+					
 				}
 				return response.json()
 			})

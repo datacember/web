@@ -1,0 +1,31 @@
+---
+title: "Datacember Advent Calendar"
+editor: visual
+format: 
+  html:
+    toc: true
+    number-sections: true
+---
+
+<div style="display: flex; justify-content: space-between; width:100%;">
+<p><b><a href="/advent/Previous Day"> < Previous Day </a></b></p>
+<p><b><a href="/advent/Next Day"> Next Day ></a></b></p>
+</div>
+
+## This Week
+
+### Hello ZZZNAMEZZZ
+
+<div class="DYNAMIC-CONTENT-GLANCE"></div>
+
+## Datacember Advent Problem
+
+<div class="DYNAMIC-CONTENT-PROBLEM"></div>
+
+## Read More
+
+<div class="DYNAMIC-CONTENT-READMORE"></div>
+
+
+
+

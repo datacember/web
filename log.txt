@@ -4,3 +4,19 @@ https://www.kaggle.com/datasets/edumagalhaes/quality-prediction-in-a-mining-proc
 
 https://archive.ics.uci.edu/dataset/913/forty+soybean+cultivars+from+subsequent+harvests
 http://www.bom.gov.au/climate/dwo/IDCJDW0920.shtml
+
+Last minute TODO
+
+Write Guides
+PRoofRead + Epicfy
+
+Remove Blog
+
+Advent Functions
+
+get_advent_challenge(date)
+get_challenges() ... etc
+
+admin
+submissions + cleaning
+

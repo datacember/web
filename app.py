@@ -1,4 +1,5 @@
 import functions
+import random
 import time
 import sqlite3
 import datetime
@@ -7,11 +8,33 @@ import yaml
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from mover import upkeep, is_kept
+import boto3
 
 
+
+# TODO MAKE LAMBDA FUNCTIONS
+escape = lambda cstr: cstr.replace('/', '-')
+
+def loggedin(session):
+    if session.get('auth') and session.get('username') and session.get('name'):
+        return True
+    return False
+
+def get_date_schema():
+    # timeless method
+    return {
+        date: {
+            "challenge": functions.challenges_today(date),
+            "due": functions.due_today(date),
+            "blog_today": False
+        }
+        for date in range(-10, 40, 1)
+    }
 # loading the yaml config
 with open('config.yaml', 'r') as yaml_file:
     config = yaml.safe_load(yaml_file)
+
+
 
 app = Flask(__name__)
 app.secret_key = config['secret_key'] + "" if (datetime.datetime.now().day % 3 != 0) else str(datetime.datetime.now().day)
@@ -22,12 +45,60 @@ limiter = Limiter(get_remote_address,
                   default_limits=["999 per hour"]
 )
 
+s3 = boto3.client(
+    's3',
+    aws_access_key_id=config['aws_acsess_key'],
+    aws_secret_access_key=config['aws_password']
+)
+
 @app.route("/", methods=['GET', 'POST'])
 def index():
     if session.get('auth') != True:
         return redirect(url_for('login'))
   
     # TODO, 2024 12, 10 is a debug
+    # welcome messages 
+
+    welcome_message = random.choice([
+        '"Data science is a journey, not a destination." – DJ Patil',
+        '"Don’t worry about failure; you only have to be right once." – Drew Houston',
+        '"The best way to predict the future is to invent it." – Alan Kay',
+        '"The best way to predict the future is to invent it." – Alan Kay',
+        '"The best way to predict the future is to invent it." – Alan Kay',
+        '"The best way to predict the future is to invent it." – Alan Kay',
+        '"Success is the ability to go from one failure to another with no loss of enthusiasm." – Winston Churchill',
+        '"We are surrounded by data, but it’s only valuable when you can understand it and make decisions based on it." – Cathy O\'Neil',
+        '"We are surrounded by data, but it’s only valuable when you can understand it and make decisions based on it." – Cathy O\'Neil',
+        '"We are surrounded by data, but it’s only valuable when you can understand it and make decisions based on it." – Cathy O\'Neil',
+        '"The greatest minds are capable of the greatest vices as well as of the greatest virtues." – Albert Einstein',
+        '"We can only see a short distance ahead, but we can see plenty there that needs to be done." – Alan Turing',
+        '"We can only see a short distance ahead, but we can see plenty there that needs to be done." – Alan Turing',
+        '"We can only see a short distance ahead, but we can see plenty there that needs to be done." – Alan Turing',
+        '"We can only see a short distance ahead, but we can see plenty there that needs to be done." – Alan Turing',
+            'Nah',
+        'Anybody know where I can get a haircut exactly the same as William Shakespeare?',
+        '"Complexity is the enemy of execution." – Tony Robbins',
+        '"Complexity is the enemy of execution." – Tony Robbins',
+        '"Complexity is the enemy of execution." – Tony Robbins',
+        '"Complexity is the enemy of execution." – Tony Robbins',
+        '"First, solve the problem. Then, write the code." – John Johnson',
+        '"First, solve the problem. Then, write the code." – John Johnson',
+        '"First, solve the problem. Then, write the code." – John Johnson',
+        '"First, solve the problem. Then, write the code." – John Johnson',
+        '"First, solve the problem. Then, write the code." – John Johnson',
+        "They don't know me son",
+        "Andrew vs Hydraulic Press",
+
+
+    ])
+
+    # error messages
+    display_error_msg, error_msg = functions.get_error_messages()
+    
+    # custom processing in Error messaging
+    error_msg = error_msg.replace('<NAME>', session['name'])
+    error_msg = error_msg.replace('<USERNAME>', session['username'])
+    error_msg = error_msg.replace('<TODAY>', str(datetime.date.today()))
 
     names, link, status_open = functions.get_challenges(datetime.datetime.today())
     # names, link, status_open = functions.get_challenges(datetime.date(2024, 12, 28)) # Debugging Date
@@ -38,7 +109,12 @@ def index():
                            names=names,
                            link=link,
                            status_open=status_open,
-                           loop_length=len(status_open)
+                           loop_length=len(status_open),
+                           dateschema=get_date_schema(),
+                           today=datetime.date.today().day,
+                           welcome_message=welcome_message,
+                           display_error_msg=display_error_msg,
+                           error_msg=error_msg
                            )
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -69,10 +145,9 @@ def signup():
     if request.method == 'POST':
         password = request.form.get('password')
         username = request.form.get('username')
-        github = request.form.get('github')
         name  = request.form.get('name')
 
-        usercred = functions.create_user(username, name, password, github)
+        usercred = functions.create_user(username, name, password, 'depreciated')
 
         if usercred['created']:
             return redirect(url_for('login'))
@@ -82,6 +157,59 @@ def signup():
 
     return render_template('signup.html')
 
+@app.route("/advent")
+def advent_dateless():
+    today = datetime.date.today().day
+
+    return redirect(url_for('advent', date=today))
+
+@app.route("/advent/<date>", methods=['GET', 'POST'])
+def advent(date):
+
+    if not loggedin(session):
+        return redirect(url_for('login'))
+
+    # post
+    if request.method == 'POST':
+        user = request.form.get('response')
+        if user:
+            print(user)
+            functions.advent_response(session['username'], user, date)
+
+        return redirect(url_for('advent_dateless'))  # TODO Fix
+
+    # date number
+    try:
+        date = int(date)
+        if not (date > 0 and date < 32):
+            return redirect(url_for('index'))
+    except:
+            return redirect(url_for('index'))
+
+    if date > datetime.date.today().day:
+        return redirect(url_for('early'))
+    
+    current_challenge, current_title, current_due = functions.last_challenge(date)
+    title_today, html_today = functions.get_challenges_due_today(date)
+
+
+    return render_template('advent.html',
+                           today = date,
+                           name = session['name'],
+                           points = session['points'],
+                           #WEEK SUMMARY
+                            current_challenge=current_challenge,
+                           current_title=current_title,
+                           title_today=title_today,
+                           html_today=html_today,
+                           current_due=current_due,
+                             #QUESTION
+
+                           question = functions.get_question(date),
+                           table = functions.get_table(date),
+                           image = functions.get_image(date),
+                           response = functions.get_response(session['username'], date))
+
 
 @app.route("/logout")
 def logout():
@@ -90,9 +218,32 @@ def logout():
     return redirect(url_for("login"))
 
 
+@app.route("/messaging", methods=['GET', 'POST'])
+def messaging():
+    if not (session['auth'] and session.get('username') == 'wingfooted'):
+        return redirect(url_for('index'))
+    
+    if request.method == 'GET':
+        return render_template('messaging.html')
+
+    if request.method == 'POST':
+        display = request.form.get('display_true_val')
+        msg = request.form.get('error_display_msg')
+        if display and msg:
+            print(display, msg)
+            output = functions.create_error_msg(display, msg)
+            return f'{output} <a href="/">Home</a>'
+        else:
+            return render_template('messaging.html')
+
+
 @app.route("/challenge/<dynamic>")
 @limiter.limit("30 per minute")
 def challenge(dynamic):
+    # user logged in
+    if not loggedin(session):
+        return redirect(url_for('login'))
+
 
     def check_valid_challenge(challenge):
         if challenge == 'cold':
@@ -106,12 +257,15 @@ def challenge(dynamic):
         else:
             return False
 
+    if not functions.challenge_released(dynamic, datetime.date.today().day):
+        return redirect(url_for('early'))
+
     if not is_kept(dynamic):
         upkeep(dynamic)
         return redirect(url_for('challenge', dynamic=dynamic))
 
     if check_valid_challenge(dynamic):
-        return render_template(f'{dynamic}.html')
+        return render_template(f'{dynamic}.html', name=session['name'], points=session['points'])
 
     else:
         return redirect(url_for('index'))
@@ -148,7 +302,7 @@ def point_update(dir, quantity, target, username, password):
 @limiter.limit("30 per minute")
 def guide(dynamic):
     def check_valid_guide(guide):
-        if guide in ['thanks', 'submissions', 'reports', 'points', 'welcome', 'sql', 'privacy']:
+        if guide in ['thanks', 'submissions', 'reports', 'points', 'welcome', 'sql', 'privacy', 'advent', 'return', 'people']:
             return True
         return False
 
@@ -157,10 +311,13 @@ def guide(dynamic):
         return redirect(url_for('guide', dynamic=dynamic))
 
     if check_valid_guide(dynamic):
-        return render_template(f'{dynamic}.html')
+        if dynamic == "advent":
+            return redirect(url_for('advent', date=datetime.date.today().day))
+        return render_template(f'{dynamic}.html', name=session['name'], points=session['points'])
 
     else:
         return dynamic
+
 
 @app.route("/workbench")
 def workbench():
@@ -195,7 +352,7 @@ def sql():
             return jsonify({'error': "Invalid token. Make sure that your username and password are correct, otherwise a token will not be minted. \n Note: tokens refresh every 10 minutes. \n to mint a new token use the context manager with datacamber \n see guides for more"}), 401
         if not sql:
             return jsonify(
-                {'error': 'could not find your sql query'}), 400
+                {'error': 'could not find your sql query'}), 418
 
         # safe to assumpe that token valid, sql legit
         try:
@@ -215,10 +372,11 @@ def sql():
                 # add functionality, appending to dataframes
 
         except sqlite3.OperationalError as OppErr:
-            return jsonify({'error': str(OppErr), 'hint': 'Likely an error in your sql code'}), 400
+            return jsonify({'error': str(OppErr), 'hint': 'Likely an error in your sql code'}), 418
 
         except sqlite3.Error as generic_error:
-            return jsonify({"error": str(generic_error)}), 400
+            return jsonify({"error": str(generic_error)}), 418
+
 
 @app.route('/auth', methods=['POST', 'GET'])
 @limiter.limit("10 per minute")
@@ -244,27 +402,26 @@ def auth():
         # for stray requests
         return redirect(url_for('index'))
 
-@app.route('/people')
-def people():
-    if session.get('auth') != True:
-        return render_template('people.html', content=functions.get_users())
+
+@app.route('/leaderboard')
+def leaderboard():
+    if loggedin(session):
+        print(functions.get_leaderboard())
+        return render_template('people.html', 
+                               content=functions.get_leaderboard())
     else:
         return redirect(url_for('login'))
 
-"""
-@app.route('/guides/<title>')
-def guide(title):
-    if session.get('auth') != True:
-        return redirect(url_for('login'))
-    
-    # assume user is logged in
-    # define routes & their outputs 
-    article_file_names = {'why-articles': 'articles'}
-    if title in article_file_names:
-        return render_template(article_file_names[title])
 
-    return redirect(url_for('main'))
-"""
+@app.route('/come-back-soon')
+def early():
+    if not loggedin(session):
+        return redirect(url_for('login'))
+    return render_template('return.html',
+                           name=session['name'],
+                           today=datetime.date.today().day,
+                           points=session['points'],
+                           )
 
 if __name__ == '__main__':
     app.run(debug=True, port=8997, host='0.0.0.0')
