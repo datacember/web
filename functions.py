@@ -1,4 +1,5 @@
 import sqlite3
+import pymysql
 import subprocess
 import os
 import random
@@ -7,6 +8,13 @@ from typing import Dict
 import datetime
 import numpy as np
 
+db = {
+    'host': os.getenv('Host'),  # Use correct environment variable names
+    'user': os.getenv('Username'),
+    'password': os.getenv('Password'),
+    'database': 'z3c2gl7ijtft4qes',
+    'port': 3306
+}
 
 def create_user(username: str,
                 name: str,
@@ -19,7 +27,7 @@ def create_user(username: str,
     """
 
     output = dict()
-    with sqlite3.connect('content.db') as conn:
+    with pymysql.connect(**db) as conn:
         cursor = conn.cursor()
 
         if not valid_username(username, cursor):
@@ -30,16 +38,15 @@ def create_user(username: str,
 
         cursor.execute("""
             INSERT INTO users (username, name, password, github, signup)
-            VALUES (?, ?, ?, ?, ?)""",
+            VALUES (%s, %s, %s, %s, %s)""",
             (
-                username, name,
+                str(username), str(name),
                 hashlib.sha256(password.encode()).hexdigest(),
                 'https://github.com/wingfooted',
                 str(datetime.date.today())
             )
         )
-        cursor.execute("SELECT * FROM users")
-        user = cursor.fetchall()
+        conn.commit()
 
     output["created"] = True
     output["valid_username"] = True
@@ -51,11 +58,11 @@ def create_user(username: str,
 
 def update_points(user, points: int):
     # can assume that user is a user
-    with sqlite3.connect('content.db') as conn:
+    with pymysql.connect(**db) as conn:
         cursor = conn.cursor()
         cursor.execute(
                 f"""
-                UPDATE users SET points = points + ? WHERE username = ?
+                UPDATE users SET points = points + %s WHERE username = %s
                 """, (points, user)
         )
 
@@ -75,12 +82,12 @@ def authenticate_user(username: str,
 
     # Using a SHA-256 Hash.
     hashed_password = hashlib.sha256(password.encode()).hexdigest()
-    with sqlite3.connect('content.db') as conn:
+    with pymysql.connect(**db) as conn:
         cursor = conn.cursor()
         cursor.execute("""
             SELECT username, name, password, points
             FROM users
-            WHERE username = ?
+            WHERE username = %s
         """, (username,)
         )
         user = cursor.fetchone()
@@ -99,8 +106,8 @@ def authenticate_user(username: str,
     return output  # houtput is a dict
 
 
-def valid_username(username: str, cursor: sqlite3.Cursor) -> bool:
-    cursor.execute("SELECT * FROM users WHERE username= ?", (username,))
+def valid_username(username: str, cursor) -> bool:
+    cursor.execute("SELECT * FROM users WHERE username= %s", (username,))
     output = cursor.fetchone()
     return False if output else True
 
@@ -120,7 +127,7 @@ def days_until_end_of_december():
         days_left = (dec_end - today).days
         return days_left
 
-def get_challenges(current: datetime.date = datetime.date.today()):
+def get_challenges(current = datetime.date.today()):
     """
     Gets all available challenges open to user at this day
     names : title names
@@ -128,9 +135,10 @@ def get_challenges(current: datetime.date = datetime.date.today()):
     open_status : [bool]
     """
 
-    with sqlite3.connect('content.db') as conn:
+    with pymysql.connect(**db) as conn:
         cursor = conn.cursor()
-        output = cursor.execute("SELECT * FROM challenges").fetchall()
+        cursor.execute("SELECT * FROM challenges")
+        output = cursor.fetchall()
         output = [[row[i] for row in output] for i in range(len(output[0]))]
 
         _, names, html, open_status = output[0], output[1], output[2], output[3]
@@ -161,21 +169,22 @@ def create_token(username: str, password: str) -> str:
     hour = now.hour
     minute = now.minute
 
-    with sqlite3.connect('content.db') as conn:
+    with pymysql.connect(**db) as conn:
         cursor = conn.cursor()
         cursor.execute("""
         INSERT INTO tokens (token, user, year, month, day, hour, minute)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
         """, (token, username, year, month, day, hour, minute))
+        conn.commit()
 
     return token
 
 
 def validate_token(token: str) -> bool:
-    with sqlite3.connect('content.db') as conn:
+    with pymysql.connect(**db) as conn:
         cursor = conn.cursor()
         # check if token is in the database
-        cursor.execute("SELECT * FROM tokens WHERE `token` = ?", (token,))
+        cursor.execute("SELECT * FROM tokens WHERE `token` = %s", (token,))
         tokens = cursor.fetchall()
         if len(tokens) == 0:
             return False
@@ -226,20 +235,21 @@ def create_query(
     INSERT INTO queries (token, user, user_query, time, runtime, row_length)
     VALUES ('{token}', '{user}', '{user_query}', '{str(time)}', '{runtime}', '{row_length}')
     """
-    with sqlite3.connect('content.db') as conn:
+    with pymysql.connect(**db) as conn:
         cursor = conn.cursor()
         cursor.execute(sql)
+        conn.commit()
 
 def get_user_from_token(token: str):
-    with sqlite3.connect('content.db') as conn:
+    with pymysql.connect(**db) as conn:
         cursor = conn.cursor()
-        cursor.execute("SELECT user FROM tokens WHERE token = ?", (token,))
+        cursor.execute("SELECT user FROM tokens WHERE token = %s", (token,))
         output = cursor.fetchone()
     return output[0]
 
 def get_users():
     # returns a list of all users
-    with sqlite3.connect('content.db') as conn:
+    with pymysql.connect(**db) as conn:
         cursor = conn.cursor()
         cursor.execute("SELECT username, name FROM users;")
         output = cursor.fetchall()
@@ -257,7 +267,7 @@ def startup_render():
                 print(f"Failed to render {filename}.")
 
 def get_error_messages():
-    with sqlite3.connect('content.db') as conn:
+    with pymysql.connect(**db) as conn:
         cursor = conn.cursor()
         cursor.execute("SELECT display, error FROM messages ORDER BY id DESC LIMIT 1")
         output = cursor.fetchone()
@@ -271,30 +281,25 @@ def create_error_msg(display: int, msg):
     if str(display) == '1':
         insert = 1
 
-    with sqlite3.connect('content.db') as conn:
+    with pymysql.connect(**db) as conn:
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO messages (display, error) VALUES (?, ?)", (insert, msg))
+        cursor.execute("INSERT INTO messages (display, error) VALUES (%s, %s)", (insert, msg))
+        conn.commit()
     return True
 
 
 def challenges_today(date: int) -> bool:
-    with sqlite3.connect('content.db') as conn:
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM challenges WHERE release = ?", (f"2024-12-{date}",))
-        output = cursor.fetchone()
-    print(output)
-    return True if output else False
+    if date in [1, 6, 12, 17, 26]:
+        return True
+    return False
 
 def due_today(date: int) -> bool:
-    with sqlite3.connect('content.db') as conn:
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM challenges WHERE deadline = ?", (f"2024-12-{date}",))
-        output = cursor.fetchone()
-    print(output)
-    return True if output else False
+    if date in [5, 12, 16, 23, 31]:
+        return True
+    return False
 
 def next_due_date(date) -> int:
-    with sqlite3.connect('content.db') as conn:
+    with pymysql.connect(**db) as conn:
         cursor = conn.cursor()
         cursor.execute("SELECT html, name, deadline FROM challenges")
         challenges = cursor.fetchall() # list of all challenges
@@ -316,7 +321,7 @@ def next_due_date(date) -> int:
                 
 
 def next_challenge(date) -> int:
-    with sqlite3.connect('content.db') as conn:
+    with pymysql.connect(**db) as conn:
         cursor = conn.cursor()
         cursor.execute("SELECT name, deadline FROM challenges")
         challenges = cursor.fetchall() # list of all challenges
@@ -342,7 +347,7 @@ def next_challenge(date) -> int:
 
 # TODO maybe realias this to current challenge
 def last_challenge(date) -> str:
-    with sqlite3.connect('content.db') as conn:
+    with pymysql.connect(**db) as conn:
         cursor = conn.cursor()
         cursor.execute("SELECT html, deadline, name FROM challenges")
         challenges = cursor.fetchall() # list of all challenges
@@ -376,10 +381,10 @@ def challenge_released(challenge: str, date: int) -> bool:
     """
     print(challenge)
     print(date)
-    with sqlite3.connect('content.db') as conn:
+    with pymysql.connect(**db) as conn:
         cursor = conn.cursor()
         while date>0:
-            cursor.execute('SELECT * FROM challenges WHERE html = ? AND release  = ?', 
+            cursor.execute('SELECT * FROM challenges WHERE html = %s AND `release` = %s', 
                            (challenge, '2024-12-'+str(date)))
             output = cursor.fetchone()
             if output != None:
@@ -402,36 +407,37 @@ def get_image(date: int):
     return False  # Replace with actual logic if needed
 
 def get_leaderboard() -> str:
-    with sqlite3.connect('content.db') as conn:
+    with pymysql.connect(**db) as conn:
         cursor = conn.cursor()
         cursor.execute("SELECT username, points FROM users ORDER BY points LIMIT 5")
         output = cursor.fetchall()
     return output
 
 def get_response(username, date: int) -> str:
-    with sqlite3.connect('content.db') as conn:
+    with pymysql.connect(**db) as conn:
         cursor = conn.cursor()
-        cursor.execute("SELECT response FROM adventresponses WHERE username=? AND date=?", (username, str(date)))
+        cursor.execute("SELECT response FROM adventresponses WHERE username=%s AND date=%s", (username, str(date)))
         output = cursor.fetchone()
     return output[0] if output else False
 
 def advent_response(username, response, date):
-    with sqlite3.connect('content.db') as conn:
+    with pymysql.connect(**db) as conn:
         cursor = conn.cursor()
         cursor.execute("""
             INSERT INTO adventresponses (username, response, date)
-            VALUES (?, ?, ?)""",
+            VALUES (%s, %s, %s)""",
                        (
                        username,
                        response,
                        date)
                        )
+        conn.commit()
 
 
 def get_challenges_due_today(date):
-    with sqlite3.connect('content.db') as conn:
+    with pymysql.connect(**db) as conn:
         cursor = conn.cursor()
-        cursor.execute("SELECT name, html FROM challenges WHERE deadline = ?", (f'2024-12-{date}',))
+        cursor.execute("SELECT name, html FROM challenges WHERE deadline = %s", (f'2024-12-{date}',))
         output = cursor.fetchone()
     if not output:
         return False, False 
@@ -439,8 +445,4 @@ def get_challenges_due_today(date):
     return output[0], output[1]
 
 if __name__ == '__main__':
-    print(get_challenges_due_today(1))
-    print(last_challenge(1))
-    print(get_challenges_due_today(5))
-    print(last_challenge(5))
-
+    print(create_user('1', '1', '1', '1'))
