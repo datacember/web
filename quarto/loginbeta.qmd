@@ -1,0 +1,9 @@
+---
+editor: visual
+format: 
+  html:
+    toc: true
+    number-sections: false
+---
+
+ZZZLOGINZZZDYNAMICZZZ

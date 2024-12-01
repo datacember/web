@@ -1,4 +1,5 @@
 import functions
+import os
 import pytz
 import random
 import time
@@ -17,8 +18,6 @@ def day(local_timezone: str = "Europe/Dublin", target_timezone: str = "Australia
     target_time = local_time.astimezone(target_tz)
     return target_time.day
 
-# TODO MAKE LAMBDA FUNCTIONS
-escape = lambda cstr: cstr.replace('/', '-')
 
 def loggedin(session):
     if session.get('auth') and session.get('username') and session.get('name'):
@@ -34,14 +33,11 @@ def get_date_schema():
         }
         for date in range(-10, 40, 1)
     }
-# loading the yaml config
-with open('config.yaml', 'r') as yaml_file:
-    config = yaml.safe_load(yaml_file)
 
 
 
 app = Flask(__name__)
-app.secret_key = config['secret_key'] + "" if (day() % 3 != 0) else str(day())
+app.secret_key = os.getenv('flasksk') + "" if (day() % 3 != 0) else str(day())
 # wierd hack to clear the session every n days (6)
  
 limiter = Limiter(get_remote_address,
@@ -55,8 +51,6 @@ def index():
     if session.get('auth') != True:
         return redirect(url_for('login'))
   
-    # TODO, 2024 12, 10 is a debug
-    # welcome messages 
 
     welcome_message = random.choice([
         '"Data science is a journey, not a destination." – DJ Patil',
@@ -65,7 +59,6 @@ def index():
         '"The best way to predict the future is to invent it." – Alan Kay',
         '"The best way to predict the future is to invent it." – Alan Kay',
         '"The best way to predict the future is to invent it." – Alan Kay',
-        '"Success is the ability to go from one failure to another with no loss of enthusiasm." – Winston Churchill',
         '"We are surrounded by data, but it’s only valuable when you can understand it and make decisions based on it." – Cathy O\'Neil',
         '"We are surrounded by data, but it’s only valuable when you can understand it and make decisions based on it." – Cathy O\'Neil',
         '"We are surrounded by data, but it’s only valuable when you can understand it and make decisions based on it." – Cathy O\'Neil',
@@ -74,7 +67,7 @@ def index():
         '"We can only see a short distance ahead, but we can see plenty there that needs to be done." – Alan Turing',
         '"We can only see a short distance ahead, but we can see plenty there that needs to be done." – Alan Turing',
         '"We can only see a short distance ahead, but we can see plenty there that needs to be done." – Alan Turing',
-            'Nah',
+        'Nah',
         'Anybody know where I can get a haircut exactly the same as William Shakespeare?',
         '"Complexity is the enemy of execution." – Tony Robbins',
         '"Complexity is the enemy of execution." – Tony Robbins',
@@ -150,9 +143,6 @@ def signup():
         if usercred['created']:
             return redirect(url_for('login'))
 
-        # TODO add error messaging
-        # Adding eror messaging for different types of errors ad addign ap assword
-
     return render_template('signup.html')
 
 @app.route("/advent")
@@ -173,7 +163,7 @@ def advent(date):
             print(user)
             functions.advent_response(session['username'], user, date)
 
-        return redirect(url_for('advent_dateless'))  # TODO Fix
+        return redirect(url_for('advent_dateless'))
 
     # date number
     try:
@@ -329,6 +319,14 @@ def workbench():
 
     return render_template('workspace.html', token=token, name=session['name'], points=session['points'])
 
+@app.route('/loginbeta', methods=['GET', 'POST'])
+def loginbeta():
+    if not is_kept('loginbeta'):
+        upkeep('loginbeta')
+
+    #
+    return render_template('loginbeta.html')
+
 @app.route("/sql", methods=['POST'])
 @limiter.limit("20 per minute")
 def sql():
@@ -344,7 +342,6 @@ def sql():
         # Sucsess
 
         if not functions.validate_token(token):
-            # TODO : How to differentiate, broken token, fake account, etc
             return jsonify({'error': "Invalid token. Make sure that your username and password are correct, otherwise a token will not be minted. \n Note: tokens refresh every 10 minutes. \n to mint a new token use the context manager with datacamber \n see guides for more"}), 401
         if not sql:
             return jsonify(
