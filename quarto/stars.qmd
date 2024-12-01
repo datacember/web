@@ -31,7 +31,7 @@ The aim here is to see if we can predict a star’s type just based on these phy
 
 The type column indicates the type of star you are dealing with. 
 
-**You can install the data <a href="https://www.github.com/datacemebr/stars">here</a>.**
+**You can install the data <a href="https://github.com/datacember/stars">here</a>.**
 
 ## Fun Facts about Stars
 
