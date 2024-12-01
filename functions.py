@@ -396,7 +396,16 @@ def challenge_released(challenge: str, date: int) -> bool:
 
 def get_question(date: int) -> str:
     """Return a sample question based on the integer date."""
-    return "How can you know if a data-science model is making good predictions?"
+
+    with pymysql.connect(**db) as conn:
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM adventcontent WHERE id = %s', (date,))
+        output = cursor.fetchone()
+
+    if output:
+        return _, question, table, image
+        
+    return "", "How can you know if a data-science model is making good predictions?", "", ""
 
 def get_table(date: int):
     """Return a matrix format, array of arrays, or False if not available."""
@@ -445,4 +454,4 @@ def get_challenges_due_today(date):
     return output[0], output[1]
 
 if __name__ == '__main__':
-    print(create_user('1', '1', '1', '1'))
+    get_question(2)

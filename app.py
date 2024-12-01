@@ -188,7 +188,7 @@ def advent(date):
     
     current_challenge, current_title, current_due = functions.last_challenge(date)
     title_today, html_today = functions.get_challenges_due_today(date)
-
+    _, question, table, image = get_question(date)
 
     return render_template('advent.html',
                            today = date,
@@ -201,10 +201,9 @@ def advent(date):
                            html_today=html_today,
                            current_due=current_due,
                              #QUESTION
-
-                           question = functions.get_question(date),
-                           table = functions.get_table(date),
-                           image = functions.get_image(date),
+                        question = question,
+                           table = table,
+                           image = image,
                            response = functions.get_response(session['username'], date))
 
 
