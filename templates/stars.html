@@ -89,9 +89,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#fun-facts-about-stars" id="toc-fun-facts-about-stars" class="nav-link" data-scroll-target="#fun-facts-about-stars"><span class="header-section-number">3</span> Fun Facts about Stars</a></li>
   <li><a href="#your-task" id="toc-your-task" class="nav-link" data-scroll-target="#your-task"><span class="header-section-number">4</span> Your Task</a>
   <ul class="collapse">
-  <li><a href="#simple-star-charectaristics-report" id="toc-simple-star-charectaristics-report" class="nav-link" data-scroll-target="#simple-star-charectaristics-report"><span class="header-section-number">4.1</span> Simple: Star Charectaristics Report</a></li>
-  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">4.2</span> </a></li>
-  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1"><span class="header-section-number">4.3</span> </a></li>
+  <li><a href="#simple-star-charectaristics-report" id="toc-simple-star-charectaristics-report" class="nav-link" data-scroll-target="#simple-star-charectaristics-report"><span class="header-section-number">4.1</span> <strong>Simple</strong>: Star Charectaristics Report</a></li>
+  <li><a href="#medium-hertzsprung-russell" id="toc-medium-hertzsprung-russell" class="nav-link" data-scroll-target="#medium-hertzsprung-russell"><span class="header-section-number">4.2</span> <strong>Medium</strong>: Hertzsprung-Russell</a></li>
+  <li><a href="#complex-model-classification" id="toc-complex-model-classification" class="nav-link" data-scroll-target="#complex-model-classification"><span class="header-section-number">4.3</span> <strong>Complex</strong>: Model Classification</a></li>
   </ul></li>
   <li><a href="#need-a-hint" id="toc-need-a-hint" class="nav-link" data-scroll-target="#need-a-hint"><span class="header-section-number">5</span> Need a Hint?</a></li>
   </ul>
@@ -140,7 +140,7 @@ style="letter-spacing: -0.07em; font-size: 2em; width: 75vw; max-width: 75vw; ju
 
 <section id="stars" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="stars"><span class="header-section-number">1</span> Stars</h2>
-<p>Stars are some of the universe’s most fascinating objects, each one a unique result of complex physical phenomena. They come in all shapes, sizes, and types, from massive blue supergiants to dim red dwarfs. The type of star can tell us a lot about its age, temperature, brightness, and even the elements it’s made of.</p>
+<p>Stars are some of the universe’s most fascinating objects, each one a unique result of complex physical phenomena. They come in all shapes, sizes, and types, from massive blue supergiants to dim red dwarfs. Every star holds a story, revealing secrets about its age, temperature, luminosity, and the elemental alchemy that forged it billions of years ago. The hope is that it will be possible to identify the star type based on just these charectaristics.</p>
 </section>
 <section id="data" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="data"><span class="header-section-number">2</span> Data</h2>
@@ -169,19 +169,36 @@ style="letter-spacing: -0.07em; font-size: 2em; width: 75vw; max-width: 75vw; ju
 </section>
 <section id="your-task" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="your-task"><span class="header-section-number">4</span> Your Task</h2>
-<p>For your first task, we encourage you to select one of the options below. They range from simple to more advanced. You can read about what points are, and how they are calculated <a href="guides/points"> here</a>.</p>
-<p>All these submissions require a report. You can refer to the report writing guide <a href="/guides/report">here. </a></p>
+<p>For your first task, we encourage you to select one of the options below. They range from simple to more advanced. You can read about what points are, and how they are calculated <a href="guide/points"> here</a>.</p>
+<p>All these submissions require a report. You can refer to the report writing guide <a href="/guide/reports">here. </a></p>
 <section id="simple-star-charectaristics-report" class="level3" data-number="4.1">
-<h3 data-number="4.1" class="anchored" data-anchor-id="simple-star-charectaristics-report"><span class="header-section-number">4.1</span> Simple: Star Charectaristics Report</h3>
-<p><strong>Challenge Option</strong>: Build a model that accurately predicts star type based on its characteristics, and write a concise report detailing your approach and findings.</p>
+<h3 data-number="4.1" class="anchored" data-anchor-id="simple-star-charectaristics-report"><span class="header-section-number">4.1</span> <strong>Simple</strong>: Star Charectaristics Report</h3>
+<p>For this challenge import the data into your favourite software and have an explore of what the charectaristics of each class of star are. For your <a href="/guide/report"> report* </a> answer these questions:</p>
+<ul>
+<li><p>What are the average temperature, luminosity and Radius of a type 4 star?</p></li>
+<li><p>Consider rows 46 and rows 32. How can you account for the fact that the larger star (type 4) is colder than a smaller star (type 3)?</p></li>
+<li><p>Produce a plot with two different variables, what trend does it show? (hint, plot size against Heat, are larger stars hotter?)</p></li>
+</ul>
+<p><strong>Challenge Option</strong>: Build a model that accurately predicts star type based on its characteristics.</p>
 </section>
-<section id="section" class="level3" data-number="4.2">
-<h3 data-number="4.2" class="anchored" data-anchor-id="section"><span class="header-section-number">4.2</span> </h3>
-<p><strong>Complex</strong>: Try produce a model that predicts star type based on a stars other features and write up a short rmd / qmd report on it.</p>
+<section id="medium-hertzsprung-russell" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="medium-hertzsprung-russell"><span class="header-section-number">4.2</span> <strong>Medium</strong>: Hertzsprung-Russell</h3>
+<p>Produce a Herzprung Russel Diagram of the data within the dataset.</p>
+<ul>
+<li><p>What features are left out of this diagram?</p></li>
+<li><p>Is there are clear distinction of the star types? Why not?</p></li>
+<li><p>Speculate on what specific areas of the diagram would a predictive model struggle to classify?</p></li>
+</ul>
+<p><strong><a href="https://en.wikipedia.org/wiki/Hertzsprung–Russell_diagram"> What is a Hertzsprung-Russell Diagram? </a></strong></p>
 </section>
-<section id="section-1" class="level3" data-number="4.3">
-<h3 data-number="4.3" class="anchored" data-anchor-id="section-1"><span class="header-section-number">4.3</span> </h3>
-<p><strong>Simple</strong>: If your stuck and looking for something simpler, try write up report on the types of charectaristics exhibited by each star type.</p>
+<section id="complex-model-classification" class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="complex-model-classification"><span class="header-section-number">4.3</span> <strong>Complex</strong>: Model Classification</h3>
+<p>Produce a Model that either uses regression or clustering to clasify star type.</p>
+<ul>
+<li><p>What approach did you select? Clustering or Regression?</p></li>
+<li><p>What metrics did you use?</p></li>
+<li><p>What are any limitations of the model and how could they be overcome?</p></li>
+</ul>
 </section>
 </section>
 <section id="need-a-hint" class="level2" data-number="5">

@@ -31,7 +31,6 @@ def get_date_schema():
         date: {
             "challenge": functions.challenges_today(date),
             "due": functions.due_today(date),
-            "blog_today": False
         }
         for date in range(-10, 40, 1)
     }

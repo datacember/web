@@ -20,7 +20,7 @@ They’re not just about competing but also about celebrating your growth throug
 
 You can view your points in the top right corner of the header.
 
-Keep in mind, points are awarded scarcely, so don't be discouraged.
+Keep in mind, points are awarded sparsely, so don't be discouraged.
 
 ## How to Win Points
 
@@ -52,18 +52,17 @@ Beyond just solving a challenge, the quality of your work is graded and can earn
 
 - High-quality submissions can boost your score, even for easier challenges.
 
-
 ### Novelty
 
-In addition to this, there is a novelty criteria that makes up to **2 points**. As per the name sake, novel submissions will be appreciated, and rewarded with additional points.
+In addition to this, there is a novelty criteria that makes up to **2 points**. As per the namesake, novel submissions will be appreciated, and rewarded with additional points.
 
-### Featured
+### Advent
 
-Starting week 1, a blog will be released, where the best submission will be showcased. All submissions featured within the blog will win a bounty of **6 points** devided among the showcased submissions.
+You an also win points throughout the month by playing the advent calendar. Completing the advent calendar 7 days in a row will net you 4 points. 6 days 3, 5 days will give 2 and 4 days will give 1. The count resets each week.
 
 ### Bug Bounty
 
-Find a substanticial bug within the website or security vunerability and win **1 point or 2 points** depending on the severity.
+Find a substantial bug within the website or security vulnerability and win **1 point or 2 points** depending on the severity.
 
 
 ## A Few Final Notes
@@ -75,4 +74,4 @@ By default, the client side session expired every 3 days, but you can manually t
 
 TL;DR, *you may have to wait up to 3 days to see your points increase*
 
-This points system does not have a super large impact, and is largely a measure of progress. In the spirit of the challenge, learning and participation is more important. Additionally, there are not official prizes as of yet for the victors (which may change throught the challenge). Points grading is largely discresionary and highly opinionated, so don't take it too seriously, and focus on having fun in the challenge.
+This points system does not have a super large impact, and is largely a measure of progress. In the spirit of the challenge, learning and participation is more important. Additionally, there are not official prizes as of yet for the victors (which may change throught the challenge). Points grading is largely discretionary and highly opinionated, so don't take it too seriously, and focus on having fun in the challenge.

@@ -9,7 +9,9 @@ format:
 
 ## Stars
 
-Stars are some of the universe's most fascinating objects, each one a unique result of complex physical phenomena. They come in all shapes, sizes, and types, from massive blue supergiants to dim red dwarfs. The type of star can tell us a lot about its age, temperature, brightness, and even the elements it's made of.
+Stars are some of the universe's most fascinating objects, each one a unique result of complex physical phenomena. They come in all shapes, sizes, and types, from massive blue supergiants to dim red dwarfs. 
+Every star holds a story, revealing secrets about its age, temperature, luminosity, and the elemental alchemy that forged it billions of years ago. The hope is that it will be possible to identify the star type based on just these charectaristics.
+
 
 ## Data
 
@@ -41,19 +43,42 @@ The type column indicates the type of star you are dealing with.
 
 ## Your Task
 
-For your first task, we encourage you to select one of the options below. They range from simple to more advanced. You can read about what points are, and how they are calculated <a href='guides/points'> here</a>.
+For your first task, we encourage you to select one of the options below. They range from simple to more advanced. You can read about what points are, and how they are calculated <a href='guide/points'> here</a>.
 
-All these submissions require a report. You can refer to the report writing guide <a href="/guides/report">here. </a>
+All these submissions require a report. You can refer to the report writing guide <a href="/guide/reports">here. </a>
 
-### Simple: Star Charectaristics Report 
-**Challenge Option**: Build a model that accurately predicts star type based on its characteristics, and write a concise report detailing your approach and findings.
+### **Simple**: Star Charectaristics Report 
+For this challenge import the data into your favourite software and have an explore of what the charectaristics of each class of star are. For your <a href="/guide/report"> report* </a> answer these questions:
 
-###
-**Complex**: Try produce a model that predicts star type based on a stars other features and write up a short rmd / qmd report on it.
+- What are the average temperature, luminosity and Radius of a type 4 star? 
 
-###
-**Simple**: If your stuck and looking for something simpler, try write up report on the types of charectaristics exhibited by each star type.
+- Consider rows 46 and rows 32. How can you account for the fact that the larger star (type 4) is colder than a smaller star (type 3)?
 
+- Produce a plot with two different variables, what trend does it show? (hint, plot size against Heat, are larger stars hotter?)
+
+**Challenge Option**: Build a model that accurately predicts star type based on its characteristics. 
+
+
+### **Medium**: Hertzsprung-Russell
+Produce a Herzprung Russel Diagram of the data within the dataset.
+
+- What features are left out of this diagram?
+
+- Is there are clear distinction of the star types? Why not?
+
+- Speculate on what specific areas of the diagram would a predictive model struggle to classify?
+
+**<a href="https://en.wikipedia.org/wiki/Hertzsprung–Russell_diagram"> What is a Hertzsprung-Russell Diagram? </a>**
+ 
+### **Complex**: Model Classification
+
+Produce a Model that either uses regression or clustering to clasify star type. 
+
+- What approach did you select? Clustering or Regression?
+
+- What metrics did you use?
+
+- What are any limitations of the model and how could they be overcome?
 
 ## Need a Hint?
 
