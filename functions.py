@@ -403,7 +403,7 @@ def get_question(date: int) -> str:
         output = cursor.fetchone()
 
     if output:
-        return _, question, table, image
+        return None, question, table, image
         
     return "", "How can you know if a data-science model is making good predictions?", "", ""
 
