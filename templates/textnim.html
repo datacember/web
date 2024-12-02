@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Machine Learning Metrics Animation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #00FF00;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .metrics {
+            text-align: center;
+        }
+        .metric {
+            margin: 10px 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="metrics">
+        <div class="metric" id="loss">Loss: 1.0</div>
+        <div class="metric" id="accuracy">Accuracy: 0.1</div>
+        <div class="metric" id="precision">Precision: 0.1</div>
+        <div class="metric" id="recall">Recall: 0.1</div>
+    </div>
+
+    <script>
+        // Initial metric values
+        let loss = 1.0;
+        let accuracy = 0.1;
+        let precision = 0.1;
+        let recall = 0.1;
+
+        // Function to update metrics
+        function updateMetrics() {
+            // Decrease loss
+            loss = Math.max(0, (loss - Math.random() * 0.01).toFixed(3));
+            // Increase accuracy, precision, recall
+            accuracy = Math.min(1, (accuracy + Math.random() * 0.01).toFixed(3));
+            precision = Math.min(1, (precision + Math.random() * 0.01).toFixed(3));
+            recall = Math.min(1, (recall + Math.random() * 0.01).toFixed(3));
+
+            // Update text content
+            document.getElementById('loss').textContent = `Loss: ${loss}`;
+            document.getElementById('accuracy').textContent = `Accuracy: ${accuracy}`;
+            document.getElementById('precision').textContent
+

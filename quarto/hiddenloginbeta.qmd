@@ -2,7 +2,7 @@
 editor: visual
 format: 
   html:
-    toc: true
+    toc: false
     number-sections: false
 ---
 

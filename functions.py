@@ -18,8 +18,7 @@ db = {
 
 def create_user(username: str,
                 name: str,
-                password: str,
-                github: str) -> Dict:
+                password: str) -> Dict:
     """
     created: bool, weather user was created sucsessfully
     valid_username: bool, weather username is valid
@@ -42,7 +41,7 @@ def create_user(username: str,
             (
                 str(username), str(name),
                 hashlib.sha256(password.encode()).hexdigest(),
-                'https://github.com/wingfooted',
+                'na',
                 str(datetime.date.today())
             )
         )

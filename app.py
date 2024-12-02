@@ -108,42 +108,7 @@ def index():
                            error_msg=error_msg
                            )
 
-@app.route("/login", methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
-        print("user:", username, password)
-        if username=='default':
-            return render_template('login.html')
-        usercred = functions.authenticate_user(username, password)
-        session['auth'] = usercred['auth']
-        session['username'] = usercred['username']
-        session['name'] = usercred['name']
-        session['points'] = usercred['points']
-        if not session['username']:
-            return render_template('login.html', msg="wrong username")
-        elif not session['auth']:
-            return render_template('login.html', msg="wrong password")
-        else:
-            return redirect(url_for('index'))
 
-    return render_template('login.html')
-
-
-@app.route("/signup", methods=['GET', 'POST'])
-def signup():
-    if request.method == 'POST':
-        password = request.form.get('password')
-        username = request.form.get('username')
-        name  = request.form.get('name')
-
-        usercred = functions.create_user(username, name, password, 'depreciated')
-
-        if usercred['created']:
-            return redirect(url_for('login'))
-
-    return render_template('signup.html')
 
 @app.route("/advent")
 def advent_dateless():
@@ -319,13 +284,48 @@ def workbench():
 
     return render_template('workspace.html', token=token, name=session['name'], points=session['points'])
 
-@app.route('/loginbeta', methods=['GET', 'POST'])
-def loginbeta():
-    if not is_kept('loginbeta'):
-        upkeep('loginbeta')
+@app.route('/login', methods=['GET', 'POST'])
+def login():
 
-    #
-    return render_template('loginbeta.html')
+    if request.method == 'POST':
+
+        # get form data
+        login_username = request.form.get('login-username')
+        login_password = request.form.get('login-password')
+
+        signup_username = request.form.get('signup-username')
+        signup_password = request.form.get('signup-password')
+        signup_name = request.form.get('signup-name')
+
+        if login_username and login_password:
+            usercred = functions.authenticate_user(login_username, login_password)
+            session['auth'] = usercred['auth']
+            session['username'] = usercred['username']
+            session['name'] = usercred['name']
+            session['points'] = usercred['points']
+            if not session['auth']:
+                session['message'] = "Incorrect Password"
+            if not session['username']:
+                session['message'] = "Incorrect Username"
+
+            return redirect(url_for('index'))
+
+        if signup_username and signup_password and signup_name:
+            dbresponse = functions.create_user(signup_username, signup_name, signup_password)
+            if dbresponse['created']:
+                session['name'] = signup_name
+                session['username'] = signup_username
+                session['auth'] = True
+                session['points'] = 0
+                return redirect(url_for('index'))
+
+            if not dbresponse['valid_username']:
+                session['message'] = "Username allready taken"
+
+    session.pop('username', None)
+    session.pop('auth', None)
+    msg = session.pop('message') if session.get('message') else False
+    return render_template('loginbeta.html', msg=msg)
 
 @app.route("/sql", methods=['POST'])
 @limiter.limit("20 per minute")
